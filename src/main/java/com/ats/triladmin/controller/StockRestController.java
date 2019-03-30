@@ -17,8 +17,11 @@ import com.ats.triladmin.model.GetCurrentStock;
 import com.ats.triladmin.model.GetItem;
 import com.ats.triladmin.model.ItemListWithCurrentStock;
 import com.ats.triladmin.model.MinAndRolLevelReport;
+import com.ats.triladmin.model.OpeningStockModel;
 import com.ats.triladmin.model.StockDetail;
 import com.ats.triladmin.model.StockHeader;
+import com.ats.triladmin.model.Vendor;
+import com.ats.triladmin.repository.AddOpeningStock;
 import com.ats.triladmin.repository.GetItemRepository;
 import com.ats.triladmin.repository.ItemListWithCurrentStockRepository;
 import com.ats.triladmin.repository.MinAndRolLevelReportRepository;
@@ -47,6 +50,9 @@ public class StockRestController {
 	
 	@Autowired
 	ItemListWithCurrentStockRepository itemListWithCurrentStockRepository;
+	@Autowired
+	AddOpeningStock addOpeningStock;
+	
 
 	@RequestMapping(value = { "/insertStock" }, method = RequestMethod.POST)
 	public @ResponseBody StockHeader insertStock(@RequestBody StockHeader stockHeader) {
@@ -335,4 +341,22 @@ public class StockRestController {
 
 	}
 
+	
+	@RequestMapping(value = { "/getAllitemOpeningStock" }, method = RequestMethod.POST)
+	public @ResponseBody List<OpeningStockModel> getAllitemOpeningStock(@RequestParam("cat_id") int cat_id) {
+
+		List<OpeningStockModel> OpeningStockModel = new ArrayList<OpeningStockModel>();
+System.out.println("Inside getAllitemOpeningStock");
+		try {
+
+			OpeningStockModel = addOpeningStock.getIteminfoOPeningStock(cat_id);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return OpeningStockModel;
+
+	}
 }
