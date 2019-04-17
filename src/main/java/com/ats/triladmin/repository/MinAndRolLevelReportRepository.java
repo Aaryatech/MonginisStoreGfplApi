@@ -13,9 +13,7 @@ public interface MinAndRolLevelReportRepository extends JpaRepository<MinAndRolL
 	
 	@Query(value=("SELECT\r\n" + 
 			"        m_item.item_id,\r\n" + 
-			"        CONCAT(m_item.item_code,\r\n" + 
-			"        ' ',\r\n" + 
-			"        m_item.item_desc) as item_code,\r\n" + 
+			"        m_item.item_desc item_code,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(t_stock_detail.op_stock_qty) \r\n" + 
 			"        FROM\r\n" + 
@@ -159,9 +157,7 @@ public interface MinAndRolLevelReportRepository extends JpaRepository<MinAndRolL
 	
 	@Query(value=("SELECT\r\n" + 
 			"        m_item.item_id,\r\n" + 
-			"        CONCAT(m_item.item_code,\r\n" + 
-			"        ' ',\r\n" + 
-			"        m_item.item_desc) as item_code,\r\n" + 
+			"        m_item.item_desc as item_code,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(t_stock_detail.op_stock_qty) \r\n" + 
 			"        FROM\r\n" + 

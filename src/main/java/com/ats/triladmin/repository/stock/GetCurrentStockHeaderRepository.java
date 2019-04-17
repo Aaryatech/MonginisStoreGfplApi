@@ -13,9 +13,7 @@ public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurren
 
 	@Query(value=("SELECT\r\n" + 
 			"        m_item.item_id,\r\n" + 
-			"        CONCAT(m_item.item_code,\r\n" + 
-			"        ' ',\r\n" + 
-			"        m_item.item_desc) as item_code,\r\n" + 
+			"        m_item.item_desc as item_code,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(t_stock_detail.op_stock_qty) \r\n" + 
 			"        FROM\r\n" + 
@@ -171,7 +169,7 @@ public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurren
 	List<GetCurrentStock> getCurrentStock(@Param("fromDate")String fromDate,@Param("toDate") String toDate);
 	 
 	@Query(value=("SELECT "
-			+ "m_item.item_id, CONCAT(m_item.item_code, ' ', m_item.item_desc) as item_code, coalesce((Select "
+			+ "m_item.item_id,m_item.item_desc as item_code, coalesce((Select "
 			+ "SUM(t_stock_detail.op_stock_qty) FROM t_stock_detail, t_stock_header where t_stock_header.date=:fromDate "
 			+ "AND t_stock_header.stock_header_id=t_stock_detail.stock_header_id AND m_item.item_id=t_stock_detail.item_id), 0) "
 			+ "AS opening_stock, coalesce((Select SUM(t_stock_detail.op_stock_value) FROM t_stock_detail, t_stock_header where "
@@ -223,9 +221,7 @@ public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurren
 
 	@Query(value=("SELECT\r\n" + 
 			"        m_item.item_id,\r\n" + 
-			"        CONCAT(m_item.item_code,\r\n" + 
-			"        ' ',\r\n" + 
-			"        m_item.item_desc) as item_code,\r\n" + 
+			"        m_item.item_desc as item_code,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(t_stock_detail.op_stock_qty) \r\n" + 
 			"        FROM\r\n" + 
@@ -377,7 +373,7 @@ public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurren
 
 	
 	@Query(value=("SELECT "
-			+ "m_item.item_id, CONCAT(m_item.item_code, ' ', m_item.item_desc) as item_code, coalesce((Select "
+			+ "m_item.item_id, m_item.item_desc as item_code, coalesce((Select "
 			+ "SUM(t_stock_detail.op_stock_qty) FROM t_stock_detail, t_stock_header where t_stock_header.date=:fromDate "
 			+ "AND t_stock_header.stock_header_id=t_stock_detail.stock_header_id AND m_item.item_id=t_stock_detail.item_id), 0) "
 			+ "AS opening_stock, coalesce((Select SUM(t_stock_detail.op_stock_value) FROM t_stock_detail, t_stock_header where "

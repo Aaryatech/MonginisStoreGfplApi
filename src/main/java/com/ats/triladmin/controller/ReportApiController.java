@@ -26,6 +26,7 @@ import com.ats.triladmin.model.report.POReportDetail;
 import com.ats.triladmin.model.report.RejectionReport;
 import com.ats.triladmin.model.report.RejectionReportDetail;
 import com.ats.triladmin.repository.indent.IndentReportDetailRepository;
+import com.ats.triladmin.repository.mrn.ErpHeaderRepository;
 import com.ats.triladmin.repository.report.ApproveMrnDetailRepository;
 import com.ats.triladmin.repository.report.ApproveStatusMrnReportRepo;
 import com.ats.triladmin.repository.report.GatepassReportDetailRepo;
@@ -39,7 +40,7 @@ import com.ats.triladmin.repository.report.POReportDetailRepo;
 import com.ats.triladmin.repository.report.POReportRepository;
 import com.ats.triladmin.repository.report.RejectionReportDetailRepo;
 import com.ats.triladmin.repository.report.RejectionReportRepository;
-
+import com.ats.triladmin.model.ErpHeader;
 @RestController
 public class ReportApiController {
 
@@ -83,6 +84,8 @@ public class ReportApiController {
 	IssueReportRepository issueReportRepository;
 	@Autowired
 	IssueReportDetailRepository issueReportDetailRepository;
+	@Autowired
+	ErpHeaderRepository ErpHeaderRepository;
 
 	@RequestMapping(value = { "/getIndentListHeaderDetailReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IndentReport> getIndentListHeaderDetailReport(
@@ -381,6 +384,25 @@ public class ReportApiController {
 
 		}
 		return gpList;
+
+	}
+	//Sumit ERP Export Function 18 April 2019
+	
+	@RequestMapping(value = { "/ERPlistMRN" }, method = RequestMethod.POST)
+	public @ResponseBody List<ErpHeader> ERPlistMRN( 
+			@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,@RequestParam("status") String Status) {
+
+		List<ErpHeader> ErpHeaderList = new ArrayList<ErpHeader>();
+
+		try {
+			ErpHeaderList = ErpHeaderRepository.getErpHeader(fromDate,toDate,Status);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return ErpHeaderList;
 
 	}
 
