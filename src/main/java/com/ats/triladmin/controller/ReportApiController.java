@@ -25,6 +25,7 @@ import com.ats.triladmin.model.report.POReport;
 import com.ats.triladmin.model.report.POReportDetail;
 import com.ats.triladmin.model.report.RejectionReport;
 import com.ats.triladmin.model.report.RejectionReportDetail;
+import com.ats.triladmin.repository.MrnExcelPuchRepository;
 import com.ats.triladmin.repository.indent.IndentReportDetailRepository;
 import com.ats.triladmin.repository.mrn.ErpHeaderRepository;
 import com.ats.triladmin.repository.report.ApproveMrnDetailRepository;
@@ -41,6 +42,7 @@ import com.ats.triladmin.repository.report.POReportRepository;
 import com.ats.triladmin.repository.report.RejectionReportDetailRepo;
 import com.ats.triladmin.repository.report.RejectionReportRepository;
 import com.ats.triladmin.model.ErpHeader;
+import com.ats.triladmin.model.MrnExcelPuch;
 @RestController
 public class ReportApiController {
 
@@ -86,6 +88,8 @@ public class ReportApiController {
 	IssueReportDetailRepository issueReportDetailRepository;
 	@Autowired
 	ErpHeaderRepository ErpHeaderRepository;
+	@Autowired
+	MrnExcelPuchRepository mrnExcelPuchRepository;
 
 	@RequestMapping(value = { "/getIndentListHeaderDetailReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IndentReport> getIndentListHeaderDetailReport(
@@ -390,20 +394,37 @@ public class ReportApiController {
 	
 	@RequestMapping(value = { "/ERPlistMRN" }, method = RequestMethod.POST)
 	public @ResponseBody List<ErpHeader> ERPlistMRN( 
-			@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,@RequestParam("status") String Status) {
+			@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,@RequestParam("status") List<Integer> Status) {
 
-		List<ErpHeader> ErpHeaderList = new ArrayList<ErpHeader>();
+		List<ErpHeader> erpHeaderList = new ArrayList<ErpHeader>();
 
 		try {
-			ErpHeaderList = ErpHeaderRepository.getErpHeader(fromDate,toDate,Status);
+			
+			erpHeaderList = ErpHeaderRepository.getErpHeader(fromDate,toDate,Status);
 			
 		} catch (Exception e) {
 
 			e.printStackTrace();
 
 		}
-		return ErpHeaderList;
+		return erpHeaderList;
 
 	}
+	@RequestMapping(value = { "/getMrnHsnwiseExcelReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnExcelPuch> getMrnHsnwiseExcelReport(@RequestParam("mrnIdList") List<String> mrnIdList)
 
+	{
+		List<MrnExcelPuch> report = new ArrayList<MrnExcelPuch>();
+
+		try {
+
+			report = mrnExcelPuchRepository.getMrnExcelReport(mrnIdList);
+		} catch (Exception e) {
+			System.out.println("Exce In getting mrn Report " + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return report;
+	}
+	
 }

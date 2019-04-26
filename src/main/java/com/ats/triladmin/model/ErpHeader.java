@@ -1,15 +1,32 @@
 package com.ats.triladmin.model;
 
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@Entity
 public class ErpHeader {
+	
+	@Id
 	private int mrnId; 
-	private String mrnDate; 
+	@Column(name="mrn_date")
+	private Date mrnDate; 
+	@Column(name="mrn_no")
 	private String MrnNo; 
  
+	@Column(name="bill_no")
 	private String BillNo; 
-	private String Billdate; 
+	@Column(name="bill_date")
+	private Date Billdate; 
+	@Column(name="mrn_status")
 	private int MrnStatus;
-	private int vendorid; 
+	@Column(name="vendor_id")
+	private int vendorId; 
+	@Column(name="vendor_name")
 	private String vendorName; 
 	
 	
@@ -20,10 +37,11 @@ public class ErpHeader {
 	public void setMrnId(int mrnId) {
 		this.mrnId = mrnId;
 	}
-	public String getMrnDate() {
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getMrnDate() {
 		return mrnDate;
 	}
-	public void setMrnDate(String mrnDate) {
+	public void setMrnDate(Date mrnDate) {
 		this.mrnDate = mrnDate;
 	}
 	public String getMrnNo() {
@@ -39,10 +57,11 @@ public class ErpHeader {
 	public void setBillNo(String billNo) {
 		BillNo = billNo;
 	}
-	public String getBilldate() {
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getBilldate() {
 		return Billdate;
 	}
-	public void setBilldate(String billdate) {
+	public void setBilldate(Date billdate) {
 		Billdate = billdate;
 	}
 	public int getMrnStatus() {
@@ -51,11 +70,12 @@ public class ErpHeader {
 	public void setMrnStatus(int mrnStatus) {
 		MrnStatus = mrnStatus;
 	}
-	public int getVendorid() {
-		return vendorid;
+	
+	public int getVendorId() {
+		return vendorId;
 	}
-	public void setVendorid(int vendorid) {
-		this.vendorid = vendorid;
+	public void setVendorId(int vendorId) {
+		this.vendorId = vendorId;
 	}
 	public String getVendorName() {
 		return vendorName;
@@ -68,7 +88,7 @@ public class ErpHeader {
 	@Override
 	public String toString() {
 		return "ERPHeader [mrnId=" + mrnId + ", mrnDate=" + mrnDate + ", MrnNo=" + MrnNo +" BillNo=" + BillNo + ", Billdate=" + Billdate + ", MrnStatus=" + MrnStatus + ", vendorid="
-				+ vendorid + ", vendorName=" + vendorName + "]";
+				+ vendorId + ", vendorName=" + vendorName + "]";
 	}
 
 }
