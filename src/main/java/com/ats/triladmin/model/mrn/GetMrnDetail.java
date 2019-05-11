@@ -9,56 +9,65 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class GetMrnDetail implements Serializable{
+public class GetMrnDetail implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "mrn_detail_id")
 	private int mrnDetailId;
-	
+
 	private int mrnId;
-	
+
 	private int itemId;
-	
+
 	private String itemName;
-	
+
 	private String itemCode;
-	
+
+	private String itemUom; // added by neha
+
 	private float indentQty;
-	
+
 	private float poQty;
-	
+
 	private float mrnQty;
-	
+
 	private float approveQty;
-	
+
 	private float rejectQty;
-	
+
 	private int rejectRemark;
-	
+
 	private String batchNo;
-	
+
 	private float issueQty;
-	
+
 	private float remainingQty;
-	
+
 	private int poId;
-	
+
 	private String poNo;
-	
+
 	private int mrnDetailStatus;
-	
+
 	private int delStatus;
-	
-	private float poPendingQty;//new added on 25-07 2018 Sachin
-	
-	private int poDetailId;//new added on 25-07 2018 Sachin
-	
-	private float mrnQtyBeforeEdit;//new added on 25-07 2018 Sachin
-	
+
+	private float poPendingQty;// new added on 25-07 2018 Sachin
+
+	private int poDetailId;// new added on 25-07 2018 Sachin
+
+	private float mrnQtyBeforeEdit;// new added on 25-07 2018 Sachin
+
 	private float chalanQty;
-	
-	
+
+	public String getItemUom() {
+		return itemUom;
+	}
+
+	public void setItemUom(String itemUom) {
+		this.itemUom = itemUom;
+	}
+
 	public float getMrnQtyBeforeEdit() {
 		return mrnQtyBeforeEdit;
 	}
@@ -238,14 +247,12 @@ public class GetMrnDetail implements Serializable{
 	@Override
 	public String toString() {
 		return "GetMrnDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", itemName="
-				+ itemName + ", itemCode=" + itemCode + ", indentQty=" + indentQty + ", poQty=" + poQty + ", mrnQty="
-				+ mrnQty + ", approveQty=" + approveQty + ", rejectQty=" + rejectQty + ", rejectRemark=" + rejectRemark
-				+ ", batchNo=" + batchNo + ", issueQty=" + issueQty + ", remainingQty=" + remainingQty + ", poId="
-				+ poId + ", poNo=" + poNo + ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus
-				+ ", poPendingQty=" + poPendingQty + ", poDetailId=" + poDetailId + ", mrnQtyBeforeEdit="
-				+ mrnQtyBeforeEdit + ", chalanQty=" + chalanQty + "]";
+				+ itemName + ", itemCode=" + itemCode + ", itemUom=" + itemUom + ", indentQty=" + indentQty + ", poQty="
+				+ poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty=" + rejectQty
+				+ ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
+				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo + ", mrnDetailStatus="
+				+ mrnDetailStatus + ", delStatus=" + delStatus + ", poPendingQty=" + poPendingQty + ", poDetailId="
+				+ poDetailId + ", mrnQtyBeforeEdit=" + mrnQtyBeforeEdit + ", chalanQty=" + chalanQty + "]";
 	}
 
-	
-	
 }
