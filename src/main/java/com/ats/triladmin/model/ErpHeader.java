@@ -1,11 +1,14 @@
 package com.ats.triladmin.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
+import com.ats.triladmin.model.mrn.PoNos;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -29,8 +32,17 @@ public class ErpHeader {
 	@Column(name="vendor_name")
 	private String vendorName; 
 	
+	@Transient
+	List<PoNos> poNosList;
 	
 	
+	
+	public List<PoNos> getPoNosList() {
+		return poNosList;
+	}
+	public void setPoNosList(List<PoNos> poNosList) {
+		this.poNosList = poNosList;
+	}
 	public int getMrnId() {
 		return mrnId;
 	}

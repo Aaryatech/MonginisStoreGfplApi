@@ -28,6 +28,7 @@ import com.ats.triladmin.model.report.RejectionReportDetail;
 import com.ats.triladmin.repository.MrnExcelPuchRepository;
 import com.ats.triladmin.repository.indent.IndentReportDetailRepository;
 import com.ats.triladmin.repository.mrn.ErpHeaderRepository;
+import com.ats.triladmin.repository.mrn.PoNosRepository;
 import com.ats.triladmin.repository.report.ApproveMrnDetailRepository;
 import com.ats.triladmin.repository.report.ApproveStatusMrnReportRepo;
 import com.ats.triladmin.repository.report.GatepassReportDetailRepo;
@@ -90,6 +91,8 @@ public class ReportApiController {
 	ErpHeaderRepository ErpHeaderRepository;
 	@Autowired
 	MrnExcelPuchRepository mrnExcelPuchRepository;
+	@Autowired
+	PoNosRepository poNosRepository;
 
 	@RequestMapping(value = { "/getIndentListHeaderDetailReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IndentReport> getIndentListHeaderDetailReport(
@@ -401,6 +404,11 @@ public class ReportApiController {
 		try {
 			
 			erpHeaderList = ErpHeaderRepository.getErpHeader(fromDate,toDate,Status);
+			
+			for(int i=0;i<erpHeaderList.size();i++)
+			{
+				erpHeaderList.get(i).setPoNosList(poNosRepository.getPoDetails(erpHeaderList.get(i).getMrnId()));
+			}
 			
 		} catch (Exception e) {
 
