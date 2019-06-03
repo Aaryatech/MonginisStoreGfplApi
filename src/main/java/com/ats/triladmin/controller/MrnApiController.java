@@ -148,7 +148,7 @@ public class MrnApiController {
 
 						System.err.println("Inside mrn qty before edit is greater than 0");
 						remainingQty = poDetail.getPendingQty()
-								- (mrnDetailRes.getMrnQty()-detail.getMrnQtyBeforeEdit());
+								- (mrnDetailRes.getMrnQty() - detail.getMrnQtyBeforeEdit());
 
 					}
 
@@ -162,37 +162,40 @@ public class MrnApiController {
 
 					poDetail.setStatus(status);
 					PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
-					 
+
 					List<Integer> stss = new ArrayList<Integer>();
 					stss.add(2);
 					stss.add(9);
 					stss.add(7);
-					List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotInAndPoId(stss, mrnDetailList.get(i).getPoId());
+					List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotInAndPoId(stss,
+							mrnDetailList.get(i).getPoId());
 
 					if (poDetailsList.isEmpty()) {
 
 						System.err.println("Po Detail list is Empty so Update po Header Status for POId "
 								+ mrnDetailList.get(i).getPoId());
 
-						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailList.get(i).getPoId());
+						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2,
+								mrnDetailList.get(i).getPoId());
 
-					}
-					else {
+					} else {
 						List<Integer> sts = new ArrayList<Integer>();
 						sts.add(0);
 						sts.add(1);
-							List<PoDetail> details=poDetailRepo.findAllByPoIdAndStatusNotIn(mrnDetailList.get(i).getPoId(),sts);
-							poDetailsList=new ArrayList<PoDetail>();
-							
-							poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailList.get(i).getPoId());
-		
-						if(poDetailsList.isEmpty()) {
-		
-							int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailList.get(i).getPoId());
-		
-						}
-						else {
-							int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailList.get(i).getPoId());
+						List<PoDetail> details = poDetailRepo
+								.findAllByPoIdAndStatusNotIn(mrnDetailList.get(i).getPoId(), sts);
+						poDetailsList = new ArrayList<PoDetail>();
+
+						poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailList.get(i).getPoId());
+
+						if (poDetailsList.isEmpty()) {
+
+							int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0,
+									mrnDetailList.get(i).getPoId());
+
+						} else {
+							int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1,
+									mrnDetailList.get(i).getPoId());
 						}
 					}
 
@@ -276,7 +279,7 @@ public class MrnApiController {
 		return mrnHeader;
 
 	}
-	
+
 	@RequestMapping(value = { "/getMrnHeaderForApprove" }, method = RequestMethod.POST)
 	public @ResponseBody GetMrnHeader getMrnHeaderForApprove(@RequestParam("mrnId") int mrnId) {
 
@@ -358,20 +361,20 @@ public class MrnApiController {
 	}
 
 	@RequestMapping(value = { "/getMrnHeaderByDate" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetMrnHeader> getMrnHeaderByDate(@RequestParam("grnType")int grnType,@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate) {
+	public @ResponseBody List<GetMrnHeader> getMrnHeaderByDate(@RequestParam("grnType") int grnType,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 
 		List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
 
 		try {
-			
-			if(grnType==-1) {
+
+			if (grnType == -1) {
 				System.err.println("Grn type ==-1 on page load call");
-				
+
 				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderByDate(fromDate, toDate);
 
-			}else {
-			mrnHeaderList = getMrnHeaderRepository.getMrnHeaderByDate(grnType,fromDate, toDate);
+			} else {
+				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderByDate(grnType, fromDate, toDate);
 			}
 			System.err.println("mrn Head List by Date =  " + mrnHeaderList.toString());
 
@@ -486,7 +489,7 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getMrnListByVendorIdForRejectionMemo" }, method = RequestMethod.POST)
 	public @ResponseBody List<MrnHeader> getMrnListByVendorIdForRejectionMemo(@RequestParam("vendId") int vendId) {
 
@@ -517,12 +520,13 @@ public class MrnApiController {
 		try {
 
 			mrnHeaderList = getMrnHeaderRejRepo.getMrnHeaderByList(status);
-			//List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(status);
+			// List<GetMrnDetailRej> getMrnDetailList =
+			// getMrnDetailRejRepo.getMrnDetailByList(status);
 
 			for (int i = 0; i < mrnHeaderList.size(); i++) {
- 
+
 				int mrnId = mrnHeaderList.get(i).getMrnId();
-				
+
 				List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(mrnId);
 
 				mrnHeaderList.get(i).setGetMrnDetailRejList(getMrnDetailList);
@@ -537,15 +541,16 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getMrnListByVendorIdForRejectionMemoForPune" }, method = RequestMethod.POST)
-	public @ResponseBody List<MrnHeader> getMrnListByVendorIdForRejectionMemo(@RequestParam("vendId") int vendId,@RequestParam("itemId") int itemId) {
+	public @ResponseBody List<MrnHeader> getMrnListByVendorIdForRejectionMemo(@RequestParam("vendId") int vendId,
+			@RequestParam("itemId") int itemId) {
 
 		List<MrnHeader> mrnHeaderList = new ArrayList<MrnHeader>();
 
 		try {
 
-			mrnHeaderList = mrnHeaderRepository.getMrnListByVendorIdForRejectionMemo(vendId,itemId);
+			mrnHeaderList = mrnHeaderRepository.getMrnListByVendorIdForRejectionMemo(vendId, itemId);
 
 		} catch (Exception e) {
 
@@ -559,22 +564,24 @@ public class MrnApiController {
 
 	}
 
-	//akshay
+	// akshay
 	@RequestMapping(value = { "/getMrnHeaderDetailForPune" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetMrnHeaderRej> getMrnHeaderDetail(@RequestParam("status") List<Integer> mrnIds,@RequestParam("itemId") int itemId) {
+	public @ResponseBody List<GetMrnHeaderRej> getMrnHeaderDetail(@RequestParam("status") List<Integer> mrnIds,
+			@RequestParam("itemId") int itemId) {
 
 		List<GetMrnHeaderRej> mrnHeaderList = new ArrayList<GetMrnHeaderRej>();
 
 		try {
 
 			mrnHeaderList = getMrnHeaderRejRepo.getMrnHeaderByList(mrnIds);
-			//List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(status);
+			// List<GetMrnDetailRej> getMrnDetailList =
+			// getMrnDetailRejRepo.getMrnDetailByList(status);
 
 			for (int i = 0; i < mrnHeaderList.size(); i++) {
- 
+
 				int mrnId = mrnHeaderList.get(i).getMrnId();
-				
-				List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(mrnId,itemId);
+
+				List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(mrnId, itemId);
 
 				mrnHeaderList.get(i).setGetMrnDetailRejList(getMrnDetailList);
 
@@ -597,10 +604,9 @@ public class MrnApiController {
 		try {
 
 			int delRes = mrnHeaderRepository.deleteMrnHeader(mrnId);
-			List<MrnDetail> mrnDetailList = mrnDetailRepo.findByMrnIdAndDelStatus(mrnId,1);
-			
-			System.err.println("Mrn detail in deleteMrnHeader " +mrnDetailList.toString() );
-			
+			List<MrnDetail> mrnDetailList = mrnDetailRepo.findByMrnIdAndDelStatus(mrnId, 1);
+
+			System.err.println("Mrn detail in deleteMrnHeader " + mrnDetailList.toString());
 
 			for (int i = 0; i < mrnDetailList.size(); i++) {
 
@@ -612,53 +618,54 @@ public class MrnApiController {
 				remainingQty = poDetail.getPendingQty() + mrnDetailList.get(i).getMrnQty();
 
 				poDetail.setPendingQty(remainingQty);
-				
+
 				int status = 1;
 
 				if (remainingQty <= 0) {
 					System.err.println("Pending qty =0 keeping status=2");
 					status = 2;
-				}else  if(remainingQty==poDetail.getItemQty()){
-					
-					status=0;
+				} else if (remainingQty == poDetail.getItemQty()) {
+
+					status = 0;
 				}
- 
+
 				poDetail.setStatus(status);
 				PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
 				List<Integer> stss = new ArrayList<Integer>();
 				stss.add(2);
 				stss.add(9);
 				stss.add(7);
-				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotInAndPoId(stss, mrnDetailList.get(i).getPoId());
+				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotInAndPoId(stss,
+						mrnDetailList.get(i).getPoId());
 
 				if (poDetailsList.isEmpty()) {
 
 					System.err.println("Po Detail list is Empty so Update po Header Status for POId "
 							+ mrnDetailList.get(i).getPoId());
 
-					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailList.get(i).getPoId());
+					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2,
+							mrnDetailList.get(i).getPoId());
 
-				}
-				else {
+				} else {
 					List<Integer> sts = new ArrayList<Integer>();
 					sts.add(0);
 					sts.add(1);
-						List<PoDetail> details=poDetailRepo.findAllByPoIdAndStatusNotIn(mrnDetailList.get(i).getPoId(),sts);
-						poDetailsList=new ArrayList<PoDetail>();
-						
-						poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailList.get(i).getPoId());
-	
-					if(poDetailsList.isEmpty()) {
-	
-						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailList.get(i).getPoId());
-	
-					}
-					else {
-						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailList.get(i).getPoId());
+					List<PoDetail> details = poDetailRepo.findAllByPoIdAndStatusNotIn(mrnDetailList.get(i).getPoId(),
+							sts);
+					poDetailsList = new ArrayList<PoDetail>();
+
+					poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailList.get(i).getPoId());
+
+					if (poDetailsList.isEmpty()) {
+
+						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0,
+								mrnDetailList.get(i).getPoId());
+
+					} else {
+						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1,
+								mrnDetailList.get(i).getPoId());
 					}
 				}
-				
-					
 
 				//
 
@@ -691,21 +698,18 @@ public class MrnApiController {
 
 			int delRes = mrnDetailRepo.deleteMrnDetail(mrnDetailId);
 
-			
-			MrnDetail mrnDetailRes=mrnDetailRepo.findByMrnDetailIdAndDelStatus(mrnDetailId,0);
-			
-			
+			MrnDetail mrnDetailRes = mrnDetailRepo.findByMrnDetailIdAndDelStatus(mrnDetailId, 0);
+
 			//
-			
-			//MrnDetail mrnDetailRes = mrnDetailRepo.save(detail);
+
+			// MrnDetail mrnDetailRes = mrnDetailRepo.save(detail);
 
 			PoDetail poDetail = poDetailRepo.findByPoDetailId(mrnDetailRes.getPoDetailId());
 
 			if (mrnDetailRes != null) {
 				float remainingQty = 0;
-					System.err.println("Inside mrn qty before edit is greater than 0");
-					remainingQty = poDetail.getPendingQty()
-							+ mrnDetailRes.getMrnQty();
+				System.err.println("Inside mrn qty before edit is greater than 0");
+				remainingQty = poDetail.getPendingQty() + mrnDetailRes.getMrnQty();
 
 				poDetail.setPendingQty(remainingQty);
 				int status = 1;
@@ -713,14 +717,14 @@ public class MrnApiController {
 				if (remainingQty <= 0) {
 					System.err.println("Pending qty =0 keeping status=2");
 					status = 2;
-				}else  if(remainingQty==poDetail.getItemQty()){
-					
-					status=0;
+				} else if (remainingQty == poDetail.getItemQty()) {
+
+					status = 0;
 				}
 
 				poDetail.setStatus(status);
 				PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
-				 
+
 				List<Integer> stss = new ArrayList<Integer>();
 				stss.add(2);
 				stss.add(9);
@@ -729,35 +733,33 @@ public class MrnApiController {
 
 				if (poDetailsList.isEmpty()) {
 
-					System.err.println("Po Detail list is Empty so Update po Header Status for POId "
-							+ mrnDetailRes.getPoId());
+					System.err.println(
+							"Po Detail list is Empty so Update po Header Status for POId " + mrnDetailRes.getPoId());
 
 					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailRes.getPoId());
 
-				}
-				else {
+				} else {
 					List<Integer> sts = new ArrayList<Integer>();
 					sts.add(0);
 					sts.add(1);
-						List<PoDetail> details=poDetailRepo.findAllByPoIdAndStatusNotIn(mrnDetailRes.getPoId(),sts);
-						poDetailsList=new ArrayList<PoDetail>();
-						
-						poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailRes.getPoId());
-	
-					if(poDetailsList.isEmpty()) {
-	
+					List<PoDetail> details = poDetailRepo.findAllByPoIdAndStatusNotIn(mrnDetailRes.getPoId(), sts);
+					poDetailsList = new ArrayList<PoDetail>();
+
+					poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailRes.getPoId());
+
+					if (poDetailsList.isEmpty()) {
+
 						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailRes.getPoId());
-	
-					}
-					else {
+
+					} else {
 						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailRes.getPoId());
 					}
 				}
 
 			}
-			
+
 			//
-			
+
 			if (delRes > 0) {
 				errMsg.setError(false);
 				errMsg.setMessage("Mrn Detail deleted Successfull");
@@ -775,26 +777,27 @@ public class MrnApiController {
 
 		return errMsg;
 	}
-	
+
 	@RequestMapping(value = { "/updateStatusWhileMrnApprov" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage updateStatusWhileMrnApprov(@RequestParam("mrnId") int mrnId,
-			@RequestParam("mrnDetalId") List<Integer> mrnDetalId,@RequestParam("status") int status) {
+			@RequestParam("mrnDetalId") List<Integer> mrnDetalId, @RequestParam("status") int status) {
 
 		ErrorMessage errorMessage = new ErrorMessage();
 
 		try {
 
-			int update = mrnHeaderRepository.updateStatusWhileApprov(mrnId,status); 
-			
-			/*for(int i=0 ; i<poDetalId.size() : i++)
-			{
-				
-			}*/
-			int updateDetail = mrnDetailRepo.updateStatusWhileApprov(mrnDetalId,status);
-			
+			int update = mrnHeaderRepository.updateStatusWhileApprov(mrnId, status);
+
+			/*
+			 * for(int i=0 ; i<poDetalId.size() : i++) {
+			 * 
+			 * }
+			 */
+			int updateDetail = mrnDetailRepo.updateStatusWhileApprov(mrnDetalId, status);
+
 			errorMessage.setError(false);
 			errorMessage.setMessage("approved");
-			 
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -805,7 +808,7 @@ public class MrnApiController {
 		return errorMessage;
 
 	}
-	
+
 	@RequestMapping(value = { "/getDeptAndSubDeptFromIndentByPoId" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage updateStatusWhileMrnApprov(@RequestParam("poId") int poId) {
 
@@ -813,15 +816,15 @@ public class MrnApiController {
 
 		try {
 
-			String deptId = mrnHeaderRepository.getDeptId(poId); 
-			 
+			String deptId = mrnHeaderRepository.getDeptId(poId);
+
 			String suDeptId = mrnHeaderRepository.getSubDept(poId);
-			
+
 			String accHead = mrnHeaderRepository.getAccHead(poId);
-			
+
 			errorMessage.setError(false);
-			errorMessage.setMessage(deptId+","+suDeptId+","+accHead);
-			 
+			errorMessage.setMessage(deptId + "," + suDeptId + "," + accHead);
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
