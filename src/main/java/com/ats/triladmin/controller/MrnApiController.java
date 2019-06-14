@@ -360,6 +360,13 @@ public class MrnApiController {
 		return res;
 	}
 
+	@RequestMapping(value = { "/updateMRNStatusById" }, method = RequestMethod.POST)
+	public int updateMRNstatusbyid(@RequestBody int mrnId) {
+	
+		
+		int isUpdated = mrnHeaderRepository.updateMrnStatusAccount(mrnId);
+		return isUpdated;
+	}
 	@RequestMapping(value = { "/getMrnHeaderByDate" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetMrnHeader> getMrnHeaderByDate(@RequestParam("grnType") int grnType,
 			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {

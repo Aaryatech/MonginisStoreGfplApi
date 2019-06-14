@@ -208,7 +208,7 @@ public class IssueRestController {
 	public @ResponseBody List<MrnDetail> updateMrnDetailList(@RequestBody List<MrnDetail> mrnDetailList) {
 		 
 		List<MrnDetail> mrnDetails = new ArrayList<>();
-
+		//List<MrnHeader> mrnHeader = new ArrayList<>();
 		try {
  
 			mrnDetails = mrnDetailRepo.saveAll(mrnDetailList); 
@@ -218,9 +218,10 @@ public class IssueRestController {
 				
 				mrnIds.add(mrnDetailList.get(i).getMrnId());
 				List<MrnDetail> mrnDetailsForUpdate = mrnDetailRepo.findByMrnIdAndDelStatus(mrnDetailList.get(i).getMrnId(),1);
+				MrnHeader mrnHeader= new MrnHeader();
+				
 				
 				int status=4;
-				
 				for(int j=0 ; j<mrnDetailsForUpdate.size() ; j++) {
 					
 					if(mrnDetailsForUpdate.get(j).getChalanQty()==1) {
@@ -230,7 +231,14 @@ public class IssueRestController {
 				 
 				}
 				
+				
+				mrnHeader=mrnHeaderRepository.findByMrnId(mrnDetailList.get(i).getMrnId());
+				
+				if(mrnHeader.getMrnId()<= 4)
+				{
+				
 				int updateheaderStatus = mrnHeaderRepository.updateheaderStatus(mrnDetailList.get(i).getMrnId(),status);
+				}
 			}
 			
 			
