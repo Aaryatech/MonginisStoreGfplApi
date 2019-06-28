@@ -280,6 +280,34 @@ public class MrnApiController {
 
 	}
 
+	// check unique bill_no Neha ---28/06/2019
+	@RequestMapping(value = { "/getMrnHeaderByVendIdAndDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnHeader> getMrnHeaderByVendIdAndDate(@RequestParam("vendId") int vendId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
+			@RequestParam("billNo") String billNo) {
+
+		System.out.println(fromDate);
+		System.out.println(toDate);
+		System.out.println(billNo);
+		System.out.println(vendId);
+
+		List<MrnHeader> mrnHeaderList = new ArrayList<>();
+
+		try {
+			mrnHeaderList = mrnHeaderRepository.getMrnHeaderByVendIdAndDate(vendId, fromDate, toDate, billNo);
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndents Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return mrnHeaderList;
+
+	}
+
 	@RequestMapping(value = { "/getMrnHeaderForApprove" }, method = RequestMethod.POST)
 	public @ResponseBody GetMrnHeader getMrnHeaderForApprove(@RequestParam("mrnId") int mrnId) {
 
@@ -362,11 +390,11 @@ public class MrnApiController {
 
 	@RequestMapping(value = { "/updateMRNStatusById" }, method = RequestMethod.POST)
 	public int updateMRNstatusbyid(@RequestBody int mrnId) {
-	
-		
+
 		int isUpdated = mrnHeaderRepository.updateMrnStatusAccount(mrnId);
 		return isUpdated;
 	}
+
 	@RequestMapping(value = { "/getMrnHeaderByDate" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetMrnHeader> getMrnHeaderByDate(@RequestParam("grnType") int grnType,
 			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
