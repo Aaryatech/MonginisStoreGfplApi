@@ -67,7 +67,7 @@ public interface MrnHeaderRepository extends JpaRepository<MrnHeader, Integer> {
 	@Query("UPDATE MrnHeader SET mrn_status=:status  WHERE mrn_id=:mrnId ")
 	int updateheaderStatus(@Param("mrnId") int mrnId, @Param("status") int status);
 
-	@Query(value = (" SELECT mh.* FROM t_mrn_header mh WHERE mh.bill_date BETWEEN :fromDate AND :toDate AND mh.vendor_id=:vendId AND mh.del_status=1 AND mh.bill_no=:bill_no\n"
+	@Query(value = (" SELECT mh.* FROM t_mrn_header mh WHERE mh.bill_date BETWEEN :fromDate AND :toDate AND mh.vendor_id=:vendId AND mh.del_status=1 AND trim(mh.bill_no)=:bill_no\n"
 			+ ""), nativeQuery = true)
 	List<MrnHeader> getMrnHeaderByVendIdAndDate(@Param("vendId") int vendId, @Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, @Param("bill_no") String bill_no);
