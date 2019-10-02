@@ -315,6 +315,9 @@ public class IssueRestController {
 			if(docType==1) {
 				
 				recptNo = issueHeaderRepository.generateMrnNo(date); 
+			}else if(docType==3) {
+				
+				recptNo = issueHeaderRepository.generatePoNo(date); 
 			}
 			else {
 				
@@ -326,6 +329,9 @@ public class IssueRestController {
 				
 				if(docType==1) {
 					recptNo="MRN-"+monthAndYear[0].substring(2, monthAndYear[0].length())+"-"+monthAndYear[1]+"-"+monthAndYear[2]+"-0001";
+				}else if(docType==3) {
+					
+					recptNo="PO-"+monthAndYear[0].substring(2, monthAndYear[0].length())+"-"+monthAndYear[1]+"-"+monthAndYear[2]+"-0001";
 				}
 				else {
 					recptNo="IS-"+monthAndYear[0].substring(2, monthAndYear[0].length())+"-"+monthAndYear[1]+"-"+monthAndYear[2]+"-0001";
@@ -346,6 +352,9 @@ public class IssueRestController {
 				
 				if(docType==1) {
 					recptNo="MRN-"+monthAndYear[0].substring(2, monthAndYear[0].length())+"-"+monthAndYear[1]+"-"+monthAndYear[2]+"-"+finalNo;
+				}else if(docType==3) {
+					
+					recptNo="PO-"+monthAndYear[0].substring(2, monthAndYear[0].length())+"-"+monthAndYear[1]+"-"+monthAndYear[2]+"-"+finalNo;
 				}
 				else {
 					recptNo="IS-"+monthAndYear[0].substring(2, monthAndYear[0].length())+"-"+monthAndYear[1]+"-"+monthAndYear[2]+"-"+finalNo;

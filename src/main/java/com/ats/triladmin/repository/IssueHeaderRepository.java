@@ -30,4 +30,19 @@ public interface IssueHeaderRepository extends JpaRepository<IssueHeader, Intege
 	@Query(value=("select issue_no from item_issue_header where issue_id=(select max(issue_id) from item_issue_header where issue_date=:date)"),nativeQuery=true)
 	String generateIssueNo(String date);
 
+	@Query(value=("select\r\n" + 
+			"        po_no \r\n" + 
+			"    from\r\n" + 
+			"        po_header \r\n" + 
+			"    where\r\n" + 
+			"        po_id=(\r\n" + 
+			"            select\r\n" + 
+			"                max(po_id) \r\n" + 
+			"            from\r\n" + 
+			"                po_header \r\n" + 
+			"            where\r\n" + 
+			"                po_date=:date\r\n" + 
+			"        )"),nativeQuery=true)
+	String generatePoNo(@Param("date")String date);
+
 }
