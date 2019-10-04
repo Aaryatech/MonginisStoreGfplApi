@@ -1622,7 +1622,7 @@ public class MasterController {
 		ErrorMessage errorMessage = new ErrorMessage();
 
 		try {
-			int delete = itemRepository.deleteItem(itemId, deletedIn);
+			int delete = itemRepository.deleteItem(itemId);
 
 			if (delete == 1) {
 				errorMessage.setError(false);

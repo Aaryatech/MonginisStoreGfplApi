@@ -71,6 +71,20 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 			"        and mh.mrn_date<=:date\n" + 
 			"        and mh.mrn_id=md.mrn_id and mh.del_status=1",nativeQuery=true)
 	List<MrnDetail> getBatchByMultipleItemIds(@Param("itemIds")List<Integer> itemIds,@Param("date") String date);
+
+	@Query(value="select md.mrn_detail_id,md.mrn_id,md.item_id,md.po_id,md.po_no,md.po_detail_id,md.indent_qty,md.po_qty,md.mrn_qty,"
+			+ "md.approve_qty,m.grp_id as reject_qty,m.deleted_in as reject_remark,md.mrn_detail_status,md.batch_no,md.issue_qty,md.remaining_qty,"
+			+ "md.del_status,md.chalan_qty from t_mrn_detail md, t_mrn_header mh, m_item m "
+			+ "where\n" + 
+			"        md.item_id=m.item_id        \n" + 
+			"        and md.del_status=1         \n" + 
+			"        and md.mrn_detail_status>=4         \n" + 
+			"        and mh.mrn_date<=:date         \n" + 
+			"        and mh.mrn_id=md.mrn_id \n" + 
+			"        and mh.del_status=1\n" + 
+			"        and remaining_qty>0\n" + 
+			"        and m.deleted_in in (:itemIds)",nativeQuery=true)
+	List<MrnDetail> findByItemIdsAndDelStatusAndMrnDetailStatus(@Param("itemIds")List<Integer> itemIds,@Param("date") String date);
 	
 	
 	
