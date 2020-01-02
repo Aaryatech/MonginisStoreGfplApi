@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.triladmin.model.ErrorMessage;
 import com.ats.triladmin.model.GetItem;
+import com.ats.triladmin.model.MrnInfo;
 import com.ats.triladmin.model.PoDetail;
 import com.ats.triladmin.model.indent.DashIndentDetails;
 import com.ats.triladmin.model.indent.GetIndents;
@@ -34,6 +35,7 @@ import com.ats.triladmin.repository.mrn.GetMrnDetailRepository;
 import com.ats.triladmin.repository.mrn.GetMrnHeaderRepository;
 import com.ats.triladmin.repository.mrn.MrnDetailRepo;
 import com.ats.triladmin.repository.mrn.MrnHeaderRepository;
+import com.ats.triladmin.repository.mrn.MrnInfoRepo;
 import com.ats.triladmin.repository.mrn.MrnReportRepo;
 import com.ats.triladmin.repository.mrn.PoItemForMrnEditRepo;
 import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
@@ -870,5 +872,25 @@ public class MrnApiController {
 		return errorMessage;
 
 	}
+	/*******************************************************************************/
+	//Mahendra
+	//02-01-2020
+	@Autowired MrnInfoRepo mrnRepo;
+	@RequestMapping(value = { "/getMrnDetails" }, method = RequestMethod.GET)
+	public @ResponseBody List<MrnInfo> getMrnDetails() {
 
+		List<MrnInfo> list = new ArrayList<MrnInfo>();
+
+		try {
+
+			list = mrnRepo.getMrnData();
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
 }
