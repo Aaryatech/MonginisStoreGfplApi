@@ -24,6 +24,8 @@ import com.ats.triladmin.model.mrn.MrnDetail;
 import com.ats.triladmin.model.mrn.MrnHeader;
 import com.ats.triladmin.model.mrn.MrnReport;
 import com.ats.triladmin.model.mrn.PoItemForMrnEdit;
+import com.ats.triladmin.model.mrn.RateVerificationList;
+import com.ats.triladmin.model.mrn.VendorItemPurchaseReport;
 import com.ats.triladmin.model.rejection.RejectionMemo;
 import com.ats.triladmin.model.rejection.RejectionMemoDetail;
 import com.ats.triladmin.model.rejection.repo.GetMrnDetailRejRepo;
@@ -31,6 +33,8 @@ import com.ats.triladmin.model.rejection.repo.GetMrnHeaderRejRepo;
 import com.ats.triladmin.repository.GetItemRepository;
 import com.ats.triladmin.repository.PoDetailRepository;
 import com.ats.triladmin.repository.PoHeaderRepository;
+import com.ats.triladmin.repository.RateVerificationListRepo;
+import com.ats.triladmin.repository.VendorItemPurchaseReportRepo;
 import com.ats.triladmin.repository.mrn.GetMrnDetailRepository;
 import com.ats.triladmin.repository.mrn.GetMrnHeaderRepository;
 import com.ats.triladmin.repository.mrn.MrnDetailRepo;
@@ -884,6 +888,47 @@ public class MrnApiController {
 		try {
 
 			list = mrnRepo.getMrnData();
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+	
+	@Autowired
+	RateVerificationListRepo rateVarRepo;
+	@RequestMapping(value = { "/getAllVendorItem" }, method = RequestMethod.POST)
+	public @ResponseBody List<RateVerificationList> getAllVendorItem(@RequestParam int vendrId) {
+
+		List<RateVerificationList> list = new ArrayList<RateVerificationList>();
+
+		try {
+
+			list = rateVarRepo.getVendorItemsList(vendrId);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+	
+	@Autowired
+	VendorItemPurchaseReportRepo vipRepo;
+	@RequestMapping(value = { "/getVendorItemPuchaseList" }, method = RequestMethod.POST)
+	public @ResponseBody List<VendorItemPurchaseReport> getVendorItemPuchaseList(@RequestParam String fromDate, @RequestParam String toDate,
+			@RequestParam int vendrId, @RequestParam("itemsList") List<Integer> itemsList) {
+
+		List<VendorItemPurchaseReport> list = new ArrayList<VendorItemPurchaseReport>();
+
+		try {
+
+			list = vipRepo.getVendorItemPurchaseReport(fromDate, toDate, vendrId, itemsList);
 			
 		} catch (Exception e) {
 
