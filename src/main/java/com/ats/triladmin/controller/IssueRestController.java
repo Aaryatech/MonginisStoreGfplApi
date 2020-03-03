@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.triladmin.model.ErrorMessage;
 import com.ats.triladmin.model.GetIssueDetail;
+import com.ats.triladmin.model.GetIssueExcelList;
 import com.ats.triladmin.model.GetIssueHeader;
 import com.ats.triladmin.model.IssueDetail;
 import com.ats.triladmin.model.IssueHeader;
@@ -21,6 +22,7 @@ import com.ats.triladmin.model.indent.IndentTrans;
 import com.ats.triladmin.model.mrn.MrnDetail;
 import com.ats.triladmin.model.mrn.MrnHeader;
 import com.ats.triladmin.repository.GetIssueDetailRepository;
+import com.ats.triladmin.repository.GetIssueExcelListRepo;
 import com.ats.triladmin.repository.GetIssueHeaderRepository;
 import com.ats.triladmin.repository.IssueDetailRepository;
 import com.ats.triladmin.repository.IssueHeaderRepository;
@@ -396,5 +398,26 @@ public class IssueRestController {
 
 	}
 	/*select mrn_no from t_mrn_header where mrn_id=(select max(mrn_id) from t_mrn_header where mrn_date="2018-11-28")*/
+	
+	/****************************************************************************/
+	@Autowired GetIssueExcelListRepo issueListRepo;
+	@RequestMapping(value = { "/getIssueExcelList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIssueExcelList> getIssueExcelList(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
 
+		List<GetIssueExcelList> list = new ArrayList<GetIssueExcelList>();
+
+		try {
+
+			list = issueListRepo.getIssueListBetwnDate(fromDate, toDate);
+			 
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+		}
+		return list;
+
+	}
 }
