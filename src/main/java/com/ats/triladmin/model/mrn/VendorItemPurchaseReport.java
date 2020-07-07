@@ -14,7 +14,7 @@ public class VendorItemPurchaseReport {
 	private String itemDesc;
 	private String mrnNo;
 	private Date mrnDate;
-	private int billNo;
+	private String billNo;
 	private int approveQty;
 	private float basicValue;
 	private float taxValue;
@@ -69,10 +69,10 @@ public class VendorItemPurchaseReport {
 	public void setLandingCost(float landingCost) {
 		this.landingCost = landingCost;
 	}
-	public int getBillNo() {
+	public String getBillNo() {
 		return billNo;
 	}
-	public void setBillNo(int billNo) {
+	public void setBillNo(String billNo) {
 		this.billNo = billNo;
 	}
 	
