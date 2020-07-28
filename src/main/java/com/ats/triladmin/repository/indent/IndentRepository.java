@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ats.triladmin.model.indent.Indent;
+import com.ats.triladmin.model.report.IndentReportDetail;
 
 public interface IndentRepository extends JpaRepository<Indent, Integer> {
 
@@ -48,4 +49,9 @@ public interface IndentRepository extends JpaRepository<Indent, Integer> {
 	@Query(" UPDATE Indent  SET ind_m_status=:status, ind_apr2_date=:apr2Date WHERE ind_m_id=:indMId ")
 	int updateIndApr2(@Param("indMId") int indMId, @Param("status") int status,@Param("apr2Date") Date apr2Date);
 
+	
+	@Query(value = "SELECT Indent.ind_m_no from Indent i WHERE i.ind_m_id=:indentId", nativeQuery = true)
+	String getIndentNoByIndentId(@Param("indentId") int  indentId);
+
+	
 }

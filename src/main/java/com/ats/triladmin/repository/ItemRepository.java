@@ -23,5 +23,11 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	@Query(value=("select *  from m_item where item_code = ( select max(item_code) from m_item where item_code LIKE :str% )"),nativeQuery=true)
 	Item getNextItemCode(@Param("str") String str);
-
+	
+	//Sachin 27-07-2020 to show up in MRN Punch Report Detail on Popup.
+	//List<Item> findAllByIsUsedAndCreatedIn(int i,int createdIn);
+	
+	
+	@Query(value=("select *  from m_item where is_used=1 and   created_in=:createdIn"),nativeQuery=true)
+	List<Item> getItemListByCreatedIn(@Param("createdIn") int createdIn );
 }

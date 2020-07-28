@@ -147,6 +147,73 @@ public class IndentController {
 		return indDetailList;
 
 	}
+	
+	/*@RequestMapping(value = { "/saveIndentTras" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIndentDetail> saveIndentTras(@RequestBody IndentTrans indDetail) {
+
+		System.err.println("inside web api /getIndents indent");
+
+		// List<IndentTrans> indDetailList = new ArrayList<IndentTrans>();
+		List<GetIndentDetail> indDetailList = new ArrayList<GetIndentDetail>();
+
+		try {
+			IndentTrans transRes = indentTransRepo.save(indDetail);
+
+			// indDetailList =
+			// indentTransRepo.findByIndMIdAndDelStatus(indDetail.getIndMId(),1);
+
+			indDetailList = getIndentDetailRepo.getIndentDetail(indDetail.getIndMId());
+
+			System.err.println("indDetailList List " + indDetailList.toString());
+
+			System.err.println("indDetailList List " + indDetailList.toString());
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndents Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return indDetailList;
+
+	}*/
+	
+	//Sachin 27-07-2020 Save Indent Details. For PO Acc Level Item Mngt
+	
+
+	@RequestMapping(value = { "/saveIndentDetail" }, method = RequestMethod.POST)
+	public @ResponseBody IndentTrans saveIndentDetail(@RequestBody IndentTrans indDetail) {
+
+		IndentTrans indResponse = null;
+
+		try {
+			indResponse = indentTransRepo.save(indDetail);
+
+		} catch (Exception e) {
+			System.err.println("Exception in /saveIndentDetail   " + e.getMessage());
+			e.printStackTrace();
+		}
+		return indResponse;
+
+	}
+
+	//Sachin 27-07-2020 
+	
+	
+	@RequestMapping(value = { "/getIndentNoByIndentId" }, method = RequestMethod.POST)
+	public @ResponseBody String getIndentNoByIndentId(@RequestParam("indentId") int indentId) {
+
+		String indentNo=new String();
+		
+		try {
+			indentNo=indentRepository.getIndentNoByIndentId(indentId);
+		}catch (Exception e) {
+			
+		}
+		
+		return indentNo;
+	}
 
 	@RequestMapping(value = { "/getIndentByIndId" }, method = RequestMethod.POST)
 	public @ResponseBody Indent getIndentByIndId(@RequestParam("indMId") int indMId) {

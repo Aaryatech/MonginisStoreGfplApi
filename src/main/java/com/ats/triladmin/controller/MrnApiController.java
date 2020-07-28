@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.triladmin.model.ErrorMessage;
 import com.ats.triladmin.model.GetItem;
+import com.ats.triladmin.model.Info;
 import com.ats.triladmin.model.MrnInfo;
 import com.ats.triladmin.model.PoDetail;
+import com.ats.triladmin.model.PoHeader;
+import com.ats.triladmin.model.TransModel;
 import com.ats.triladmin.model.indent.DashIndentDetails;
 import com.ats.triladmin.model.indent.GetIndents;
 import com.ats.triladmin.model.mrn.GetMrnDetail;
@@ -338,6 +341,61 @@ public class MrnApiController {
 
 		return mrnHeader;
 
+	}
+
+	// Sachin 28-07-2020
+
+	@RequestMapping(value = { "/savePoMrnCommon" }, method = RequestMethod.POST)
+	public @ResponseBody Info savePoMrnCommon(@RequestBody TransModel transModel) {
+
+		Info info = new Info();
+
+		List<PoDetail> poResList = new ArrayList<>();
+		List<MrnDetail> mrnInputList = transModel.getMrnDetailList();
+
+		try {
+			String mrnNo = mrnRepo.getMrnNoByMrnId(mrnInputList.get(0).getMrnId());
+
+			List<PoDetail> poDetList = transModel.getPoDetailList();
+			poResList = poDetailRepo.saveAll(poDetList);
+poHeaderRepository.updatePoHeaderBasicAndTaxValue(transModel.getPoHeader().getPoBasicValue(), transModel.getPoHeader().getPoTaxValue(),
+		transModel.getPoHeader().getPoId());
+
+
+			for (int i = 0; i < poResList.size(); i++) {
+
+				for (int j = 0; j < mrnInputList.size(); j++) {
+					
+					Integer isMatched=Integer.compare(poResList.get(i).getItemId(),mrnInputList.get(j).getItemId());
+					
+					if(isMatched.equals(0)) {
+				//	if (poResList.get(i).getItemId() == mrnInputList.get(j).getItemId()) {
+
+						mrnInputList.get(j).setPoDetailId(poResList.get(i).getPoDetailId());
+						GetItem item = getItemRepository.getItemByItemId(mrnInputList.get(j).getItemId());
+						String batchNo = new String();
+						batchNo = mrnNo + "-" + item.getItemCode();
+						mrnInputList.get(j).setBatchNo(batchNo);
+						MrnDetail mrnDetailSaveRes = mrnDetailRepo.save(mrnInputList.get(j));
+						break;
+					}
+
+				} // end of mrnInputList
+
+			} // end of poResList
+			
+			
+			info.setError(false);
+			info.setMessage("success");
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMessage("exception");
+			System.err.println("Exception in saving Mrn Header and Detail  " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return info;
 	}
 
 	@RequestMapping(value = { "/saveMrnData" }, method = RequestMethod.POST)
@@ -876,10 +934,13 @@ public class MrnApiController {
 		return errorMessage;
 
 	}
+
 	/*******************************************************************************/
-	//Mahendra
-	//02-01-2020
-	@Autowired MrnInfoRepo mrnRepo;
+	// Mahendra
+	// 02-01-2020
+	@Autowired
+	MrnInfoRepo mrnRepo;
+
 	@RequestMapping(value = { "/getMrnDetails" }, method = RequestMethod.GET)
 	public @ResponseBody List<MrnInfo> getMrnDetails() {
 
@@ -888,7 +949,7 @@ public class MrnApiController {
 		try {
 
 			list = mrnRepo.getMrnData();
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -897,9 +958,10 @@ public class MrnApiController {
 		return list;
 
 	}
-	
+
 	@Autowired
 	RateVerificationListRepo rateVarRepo;
+
 	@RequestMapping(value = { "/getAllVendorItem" }, method = RequestMethod.POST)
 	public @ResponseBody List<RateVerificationList> getAllVendorItem(@RequestParam int vendrId) {
 
@@ -908,7 +970,7 @@ public class MrnApiController {
 		try {
 
 			list = rateVarRepo.getVendorItemsList(vendrId);
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -917,19 +979,21 @@ public class MrnApiController {
 		return list;
 
 	}
-	
+
 	@Autowired
 	VendorItemPurchaseReportRepo vipRepo;
+
 	@RequestMapping(value = { "/getVendorItemPuchaseList" }, method = RequestMethod.POST)
-	public @ResponseBody List<VendorItemPurchaseReport> getVendorItemPuchaseList(@RequestParam String fromDate, @RequestParam String toDate,
-			@RequestParam int vendrId, @RequestParam("itemsList") List<Integer> itemsList) {
+	public @ResponseBody List<VendorItemPurchaseReport> getVendorItemPuchaseList(@RequestParam String fromDate,
+			@RequestParam String toDate, @RequestParam int vendrId,
+			@RequestParam("itemsList") List<Integer> itemsList) {
 
 		List<VendorItemPurchaseReport> list = new ArrayList<VendorItemPurchaseReport>();
 
 		try {
 
 			list = vipRepo.getVendorItemPurchaseReport(fromDate, toDate, vendrId, itemsList);
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();

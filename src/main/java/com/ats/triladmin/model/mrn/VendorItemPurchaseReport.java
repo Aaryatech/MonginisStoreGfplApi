@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public class VendorItemPurchaseReport {
 @Id
+private String id;
+
 	private int itemId;
 	private String itemDesc;
 	private String mrnNo;
@@ -82,13 +84,24 @@ public class VendorItemPurchaseReport {
 	public void setVendorName(String vendorName) {
 		this.vendorName = vendorName;
 	}
+	
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	@Override
 	public String toString() {
-		return "VendorItemPurchaseReport [itemId=" + itemId + ", itemDesc=" + itemDesc + ", mrnNo=" + mrnNo
-				+ ", mrnDate=" + mrnDate + ", billNo=" + billNo + ", approveQty=" + approveQty + ", basicValue="
+		return "VendorItemPurchaseReport [id=" + id + ", itemId=" + itemId + ", itemDesc=" + itemDesc + ", mrnNo="
+				+ mrnNo + ", mrnDate=" + mrnDate + ", billNo=" + billNo + ", approveQty=" + approveQty + ", basicValue="
 				+ basicValue + ", taxValue=" + taxValue + ", landingCost=" + landingCost + ", vendorName=" + vendorName
 				+ "]";
 	}
+	
+	
 	
 	
 }

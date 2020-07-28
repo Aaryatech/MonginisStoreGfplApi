@@ -37,5 +37,10 @@ public interface PoHeaderRepository extends JpaRepository<PoHeader, Integer>{
 	@Query(value = "select sch_date from po_detail where po_id =:poId", nativeQuery = true)
 	List<Date> getschDate(@Param("poId") int poId);
 	
+	@Transactional
+	@Modifying
+	@Query(" UPDATE PoHeader  SET poBasicValue=:poBasicValue ,poTaxValue=:poTaxValue"
+			+ " WHERE poId=:poId ")
+	int updatePoHeaderBasicAndTaxValue(@Param("poBasicValue") float poBasicValue,@Param("poTaxValue") float poTaxValue,@Param("poId") int poId); 
 }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

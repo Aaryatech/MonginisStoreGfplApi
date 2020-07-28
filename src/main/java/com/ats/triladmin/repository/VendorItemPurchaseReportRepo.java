@@ -10,7 +10,7 @@ import com.ats.triladmin.model.mrn.VendorItemPurchaseReport;
 
 public interface VendorItemPurchaseReportRepo extends JpaRepository<VendorItemPurchaseReport, Integer> {
 
-	@Query(value="SELECT\n" + 
+	@Query(value="SELECT UUID() as id,\n" + 
 			"    m_item.item_id,\n" + 
 			"    m_item.item_desc,\n" + 
 			"    t_mrn_header.mrn_no,\n" + 

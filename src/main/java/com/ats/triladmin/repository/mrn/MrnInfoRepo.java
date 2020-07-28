@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.ats.triladmin.model.MrnInfo;
 
@@ -31,5 +32,14 @@ public interface MrnInfoRepo extends JpaRepository<MrnInfo, Integer> {
 			"    ORDER BY\n" + 
 			"        head.mrn_date DESC",nativeQuery=true)
 	public List<MrnInfo> getMrnData();
+	
+	@Query(value="SELECT\n" + 
+			"        t_mrn_header.mrn_no " + 
+			"    FROM t_mrn_header  " + 
+			"    WHERE " + 
+			"        t_mrn_header.mrn_id =:mrnId"
+			,nativeQuery=true)
+	public String getMrnNoByMrnId(@Param("mrnId") int mrnId);
+	
 	
 }

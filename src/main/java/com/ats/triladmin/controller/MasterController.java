@@ -1835,5 +1835,28 @@ public class MasterController {
 		return errorMessage;
 
 	}
+	
+	
+	//Sachin 27-07-2020
+	
+	@RequestMapping(value = { "/getAccLevelItemList" }, method = RequestMethod.POST)
+	public @ResponseBody List<Item> getAccLevelItemList(
+			@RequestParam("createdIn") int createdIn) {
+
+		List<Item> itemList = new ArrayList<Item>();
+
+		try {
+
+			itemList =itemRepository.getItemListByCreatedIn( createdIn);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		
+		return itemList;
+
+	}
 
 }
