@@ -64,7 +64,7 @@ public class MrnExcelPuch implements Serializable{
 	 private float igstSum;
 	 @Transient
 	 private float taxAmt;
-	 @Transient
+	 
 	 private String remark;
 	 
 	 private float packValue;

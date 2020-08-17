@@ -19,7 +19,7 @@ public interface MrnExcelPuchRepository extends JpaRepository<MrnExcelPuch, Inte
 			"t_mrn_header.mrn_date,\n" + 
 			"t_mrn_header.bill_no,\n" + 
 			"t_mrn_header.bill_date,\n" + 
-			"po_header.po_no,\n" + 
+			"po_header.po_no,po_header.po_frt_remark As remark,\n" + 
 			"po_header.po_date,\n" + 
 			"'Purchase' as type,\n" + 
 			"m_vendor.vendor_id,\n" + 
