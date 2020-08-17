@@ -73,4 +73,13 @@ public interface MrnHeaderRepository extends JpaRepository<MrnHeader, Integer> {
 			@Param("toDate") String toDate, @Param("bill_no") String bill_no);
 
 	//
+	
+	//Sachin 17-08-2020
+	//Desc-Checking double bill no entry in MRN for Vendor in same financial year.
+	
+	@Query(value = ("select COUNT(t_mrn_header.mrn_id)  FROM t_mrn_header,m_doc  " + 
+			"WHERE :billDate BETWEEN m_doc.from_date and to_date and doc_id=3 and t_mrn_header.bill_no=:billNo and "
+			+ "t_mrn_header.del_status=1 and t_mrn_header.vendor_id=:vendId and t_mrn_header.bill_date BETWEEN m_doc.from_date and m_doc.to_date"), nativeQuery = true)
+	Integer getMrnHeadCountForBillNoAndDateVendId(@Param("vendId") int vendId,@Param("billNo") String billNo, @Param("billDate") String billDate);
+
 }

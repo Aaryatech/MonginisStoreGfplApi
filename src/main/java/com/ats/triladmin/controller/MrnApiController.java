@@ -1002,4 +1002,25 @@ poHeaderRepository.updatePoHeaderBasicAndTaxValue(transModel.getPoHeader().getPo
 		return list;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getMrnHeadCountForBillNoAndDateVendId" }, method = RequestMethod.POST)
+	public @ResponseBody Integer getMrnCountForSameBillNoByVendAndDate(@RequestParam String billDate,
+			@RequestParam String billNo, @RequestParam int vendrId) {
+
+		Integer mrnCount=0;
+
+		try {
+
+			mrnCount = mrnHeaderRepository.getMrnHeadCountForBillNoAndDateVendId(vendrId, billNo, billDate);
+
+		} catch (Exception e) {
+			mrnCount=0;
+			e.printStackTrace();
+
+		}
+		return mrnCount;
+
+	}
+	
 }
