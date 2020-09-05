@@ -1,6 +1,5 @@
 package com.ats.triladmin.model.mrn;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -61,8 +60,40 @@ public void setChalanQty(float chalanQty) {
 	@Transient
 	private float mrnQtyBeforeEdit;
 	
+	private String uuid;
+	
+	
 	
 
+	//Sachin 31-08-2020
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+	
+		private String expDate; //31-08-2020
+		private int isHeaderItem; //31-08-2020
+		
+	public String getExpDate() {
+			return expDate;
+		}
+
+		public void setExpDate(String expDate) {
+			this.expDate = expDate;
+		}
+
+
+	public int getIsHeaderItem() {
+			return isHeaderItem;
+		}
+
+		public void setIsHeaderItem(int isHeaderItem) {
+			this.isHeaderItem = isHeaderItem;
+		}
 
 	public float getMrnQtyBeforeEdit() {
 		return mrnQtyBeforeEdit;
@@ -215,9 +246,11 @@ public void setChalanQty(float chalanQty) {
 				+ indentQty + ", poQty=" + poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty="
 				+ rejectQty + ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
 				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo + ", poDetailId=" + poDetailId
-				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", mrnQtyBeforeEdit="
-				+ mrnQtyBeforeEdit + "]";
+				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", chalanQty=" + chalanQty
+				+ ", mrnQtyBeforeEdit=" + mrnQtyBeforeEdit + ", uuid=" + uuid + ", expDate=" + expDate
+				+ ", isHeaderItem=" + isHeaderItem + "]";
 	}
+
 
 
 }

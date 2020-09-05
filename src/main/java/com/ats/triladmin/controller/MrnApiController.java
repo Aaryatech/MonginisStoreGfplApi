@@ -1,7 +1,11 @@
 package com.ats.triladmin.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.triladmin.common.DateConvertor;
 import com.ats.triladmin.model.ErrorMessage;
 import com.ats.triladmin.model.GetItem;
 import com.ats.triladmin.model.Info;
@@ -28,6 +33,7 @@ import com.ats.triladmin.model.mrn.MrnHeader;
 import com.ats.triladmin.model.mrn.MrnReport;
 import com.ats.triladmin.model.mrn.PoItemForMrnEdit;
 import com.ats.triladmin.model.mrn.RateVerificationList;
+import com.ats.triladmin.model.mrn.TempMrnItemDetail;
 import com.ats.triladmin.model.mrn.VendorItemPurchaseReport;
 import com.ats.triladmin.model.rejection.RejectionMemo;
 import com.ats.triladmin.model.rejection.RejectionMemoDetail;
@@ -45,6 +51,7 @@ import com.ats.triladmin.repository.mrn.MrnHeaderRepository;
 import com.ats.triladmin.repository.mrn.MrnInfoRepo;
 import com.ats.triladmin.repository.mrn.MrnReportRepo;
 import com.ats.triladmin.repository.mrn.PoItemForMrnEditRepo;
+import com.ats.triladmin.repository.mrn.TempMrnItemDetailRepo;
 import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 
 @RestController
@@ -272,7 +279,7 @@ public class MrnApiController {
 			mrnHeader = getMrnHeaderRepository.findByMrnId(mrnId);
 			if (mrnHeader != null) {
 
-				List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository.getMrnDetailList(mrnId, 0);
+				List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository.getMrnDetailList(mrnId);
 
 				mrnHeader.setGetMrnDetailList(getMrnDetailList);
 
@@ -358,18 +365,17 @@ public class MrnApiController {
 
 			List<PoDetail> poDetList = transModel.getPoDetailList();
 			poResList = poDetailRepo.saveAll(poDetList);
-poHeaderRepository.updatePoHeaderBasicAndTaxValue(transModel.getPoHeader().getPoBasicValue(), transModel.getPoHeader().getPoTaxValue(),
-		transModel.getPoHeader().getPoId());
-
+			poHeaderRepository.updatePoHeaderBasicAndTaxValue(transModel.getPoHeader().getPoBasicValue(),
+					transModel.getPoHeader().getPoTaxValue(), transModel.getPoHeader().getPoId());
 
 			for (int i = 0; i < poResList.size(); i++) {
 
 				for (int j = 0; j < mrnInputList.size(); j++) {
-					
-					Integer isMatched=Integer.compare(poResList.get(i).getItemId(),mrnInputList.get(j).getItemId());
-					
-					if(isMatched.equals(0)) {
-				//	if (poResList.get(i).getItemId() == mrnInputList.get(j).getItemId()) {
+
+					Integer isMatched = Integer.compare(poResList.get(i).getItemId(), mrnInputList.get(j).getItemId());
+
+					if (isMatched.equals(0)) {
+						// if (poResList.get(i).getItemId() == mrnInputList.get(j).getItemId()) {
 
 						mrnInputList.get(j).setPoDetailId(poResList.get(i).getPoDetailId());
 						GetItem item = getItemRepository.getItemByItemId(mrnInputList.get(j).getItemId());
@@ -383,8 +389,7 @@ poHeaderRepository.updatePoHeaderBasicAndTaxValue(transModel.getPoHeader().getPo
 				} // end of mrnInputList
 
 			} // end of poResList
-			
-			
+
 			info.setError(false);
 			info.setMessage("success");
 		} catch (Exception e) {
@@ -1002,25 +1007,195 @@ poHeaderRepository.updatePoHeaderBasicAndTaxValue(transModel.getPoHeader().getPo
 		return list;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/getMrnHeadCountForBillNoAndDateVendId" }, method = RequestMethod.POST)
 	public @ResponseBody Integer getMrnCountForSameBillNoByVendAndDate(@RequestParam String billDate,
 			@RequestParam String billNo, @RequestParam int vendrId) {
 
-		Integer mrnCount=0;
+		Integer mrnCount = 0;
 
 		try {
 
 			mrnCount = mrnHeaderRepository.getMrnHeadCountForBillNoAndDateVendId(vendrId, billNo, billDate);
 
 		} catch (Exception e) {
-			mrnCount=0;
+			mrnCount = 0;
 			e.printStackTrace();
 
 		}
 		return mrnCount;
 
 	}
-	
+
+	// Sachin 29-08-2020
+
+	@RequestMapping(value = { "/getMrnDetailObj" }, method = RequestMethod.POST)
+	public @ResponseBody MrnDetail getMrnDetailObj(@RequestParam int mrnDetailId) {
+
+		Integer mrnCount = 0;
+		MrnDetail mrnDetailRes = null;
+
+		try {
+
+			mrnDetailRes = mrnDetailRepo.findByMrnDetailIdAndDelStatus(mrnDetailId, 1);
+
+		} catch (Exception e) {
+			mrnDetailRes = new MrnDetail();
+			e.printStackTrace();
+
+		}
+		return mrnDetailRes;
+
+	}
+
+	@RequestMapping(value = { "/updateStoreMrnInspec" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnDetail> updateStoreMrnInspec(@RequestBody List<TempMrnItemDetail> getMrnDetailList) {
+		List<MrnDetail> res = new ArrayList<>();
+		System.err.println("input list  " + getMrnDetailList.toString());
+		List<MrnDetail> outputList = new ArrayList<>();
+		try {
+
+			int mrnId = getMrnDetailList.get(0).getMrnId();
+			boolean flag = false;
+
+			List<Integer> mrdDetailIdList = new ArrayList<Integer>();
+
+			for (int i = 0; i < getMrnDetailList.size(); i++) {
+				mrdDetailIdList.add(getMrnDetailList.get(i).getMrnDetailId());
+			}
+
+			Set<Integer> set = new LinkedHashSet<>();
+			set.addAll(mrdDetailIdList);
+
+			mrdDetailIdList.clear();
+
+			mrdDetailIdList.addAll(set);
+			res = mrnDetailRepo.getMrnDetailListByMrnDetailIdAndHeaderItem1(mrdDetailIdList);
+System.err.println("res list  "+res.toString());
+			for (MrnDetail mrn : res) {
+				// outputList.add(res.get(a));
+				float totalAprQty = 0.0f;
+				for (int i = 0; i < getMrnDetailList.size(); i++) {
+					Integer isFound = Integer.compare(mrn.getMrnDetailId(), getMrnDetailList.get(i).getMrnDetailId());
+					if (isFound.equals(0)) {
+						// if (mrn.getMrnDetailId() == getMrnDetailList.get(i).getMrnDetailId()) {
+						// MrnDetail mrnDetail1 = new MrnDetail();
+						// mrnDetail1 =
+						// mrnDetailRepo.findByMrnDetailId(getMrnDetailList.get(i).getMrnDetailId());
+						try {
+						if(getMrnDetailList.get(i).getUuid()!=null || !getMrnDetailList.get(i).getUuid().isEmpty())
+						{
+							System.err.println("In Bacth/UUID not null");
+							totalAprQty = totalAprQty + getMrnDetailList.get(i).getApproveQty();
+							flag = true;
+						}else {
+							System.err.println("In else Bacth/UUID null");
+							UUID uuid = UUID.randomUUID(); 
+							// Generates random UUID
+							MrnDetail mrnDetail = new MrnDetail();
+							// mrnDetail = mrn;
+							mrnDetail.setMrnDetailId(0);
+							mrnDetail.setBatchNo(mrn.getBatchNo() + "-" + getMrnDetailList.get(i).getExpDate());
+							mrnDetail.setChalanQty(mrn.getChalanQty());
+							mrnDetail.setDelStatus(mrn.getDelStatus());
+							mrnDetail.setIndentQty(mrn.getIndentQty());
+							mrnDetail.setIssueQty(mrn.getIssueQty());
+							mrnDetail.setItemId(mrn.getItemId());
+							mrnDetail.setMrnDetailStatus(1);
+							mrnDetail.setMrnId(mrnId);
+							mrnDetail.setMrnQty(mrn.getMrnQty());
+							// mrnDetail.setMrnQtyBeforeEdit(mrnQtyBeforeEdit);
+							mrnDetail.setPoDetailId(mrn.getPoDetailId());
+							mrnDetail.setPoId(mrn.getPoId());
+							mrnDetail.setPoNo(mrn.getPoNo());
+							mrnDetail.setPoQty(mrn.getPoQty());
+							mrnDetail.setRejectQty(mrn.getRejectQty());
+							mrnDetail.setRejectRemark(mrn.getRejectRemark());
+
+							mrnDetail.setRemainingQty(getMrnDetailList.get(i).getApproveQty());
+
+							mrnDetail.setApproveQty(getMrnDetailList.get(i).getApproveQty());
+							mrnDetail.setExpDate(DateConvertor.convertToYMD(getMrnDetailList.get(i).getExpDate()));
+							mrnDetail.setIsHeaderItem(0);// To be renamed as is_header_item
+							mrnDetail.setUuid(uuid.toString());
+
+							MrnDetail transRes = mrnDetailRepo.saveAndFlush(mrnDetail);
+
+							totalAprQty = totalAprQty + transRes.getApproveQty();
+							flag = true;
+							outputList.add(transRes);
+						}
+					}catch (Exception e) {
+						System.err.println("In Bacth/UUID not null exce");
+						totalAprQty = totalAprQty + getMrnDetailList.get(i).getApproveQty();
+						flag = true;
+						}
+
+						// res.add(transRes);
+					}
+				} // end of inner for
+				System.err.println("totalAprQty " + totalAprQty + " for Mrn Detail " + mrn.getMrnDetailId());
+				mrn.setApproveQty(totalAprQty);
+				mrn.setMrnDetailStatus(1);
+				MrnDetail updateMrnItemHead = mrnDetailRepo.saveAndFlush(mrn);
+				System.err.println("updateMrnItemHead " + updateMrnItemHead.toString());
+
+			} // end of outer for
+
+			System.err.println("Test Mrn Detail " + outputList.toString());
+			// if (1 == 2) {
+			if (flag == true) {
+				int isUpdated = mrnHeaderRepository.updateMrnStatusAsPartial(mrnId);
+			}
+
+			int count = mrnDetailRepo.getDetailCount(mrnId);
+
+			System.err.println(count);
+
+			if (count == 0) {
+				int isUpdated = mrnHeaderRepository.updateMrnStatus(mrnId);
+			}
+			// }
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in saving Mrn Header and Detail  " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return res;
+	}
+
+	// Sachin 03-09-2020
+	@Autowired
+	TempMrnItemDetailRepo tempMrnItemDetRepo;
+
+	@RequestMapping(value = { "/getTempMrnItemDetailByMrnId" }, method = RequestMethod.POST)
+	public @ResponseBody List<TempMrnItemDetail> getTempMrnItemDetail(@RequestParam("mrnId") int mrnId) {
+
+		List<TempMrnItemDetail> mrnDetList = new ArrayList<TempMrnItemDetail>();
+		try {
+			mrnDetList = tempMrnItemDetRepo.getTempMrnItemDetail(mrnId);
+		} catch (Exception e) {
+			mrnDetList = new ArrayList<TempMrnItemDetail>();
+			System.err.println(" Exception in getTempMrnItemDetail  " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mrnDetList;
+	}
+
+	//Sachin 03-09-2020
+	@RequestMapping(value = { "/deleteMrnItemDetail" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteMrnItemDetail(@RequestParam int mrnDetailId ) {
+
+		Info info = new Info();
+		try {
+			mrnDetailRepo.deleteById(mrnDetailId);
+			info.setError(false);
+		}catch (Exception e) {
+			info.setError(true);
+		}
+		return info;
+	}
 }

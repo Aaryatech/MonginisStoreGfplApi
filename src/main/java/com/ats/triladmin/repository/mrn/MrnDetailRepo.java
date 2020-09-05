@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ats.triladmin.model.mrn.MrnDetail;
 
 public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
+
 	
 	MrnDetail save(MrnDetail mrnDetail);
 
@@ -30,17 +32,22 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 			"        t_mrn_header mh\n" + 
 			"    where\n" + 
 			"        md.item_id=:itemId\n" + 
-			"        and md.del_status=1\n" + 
-			"        and md.mrn_detail_status>=4\n" + 
-			"        and mh.mrn_date<=:date\n" + 
-			"        and mh.mrn_id=md.mrn_id and mh.del_status=1",nativeQuery=true)
+			"        and md.del_status=1 and \n" + 
+			//"        and md.mrn_detail_status>=4\n" + 
+			" mh.mrn_status IN(3,4,5 " + 
+			"        ) "+
+			"        and mh.mrn_date<=:date \n" + 
+			"        and mh.mrn_id=md.mrn_id and mh.del_status=1 and md.is_header_item=0 	ORDER BY md.exp_date ASC ",nativeQuery=true)
 	List<MrnDetail> findByItemIdAndDelStatusAndMrnDetailStatus(@Param("itemId")int itemId ,
-			@Param("date")String date);
+			@Param("date")String date); //and md.is_header_item=0 Added by Sachin 31-08-2020
 
 	@Query(value="select * from t_mrn_detail where mrn_detail_id in (:mrnDetailList) and del_status=1",nativeQuery=true)
 	List<MrnDetail> getMrnDetailListByMrnDetailId(@Param("mrnDetailList")List<Integer> mrnDetailList);
 
-	
+	//Sachin 03-09-2020
+	@Query(value="select * from t_mrn_detail where mrn_detail_id in (:mrnDetailList) and del_status=1 and is_header_item=1 ",nativeQuery=true)
+	List<MrnDetail> getMrnDetailListByMrnDetailIdAndHeaderItem1(@Param("mrnDetailList")List<Integer> mrnDetailList);
+
 	List<MrnDetail> findByMrnId(int mrnId);
 	
 	MrnDetail findByMrnDetailIdAndDelStatus(int mrnDetailId,int delStatus);
