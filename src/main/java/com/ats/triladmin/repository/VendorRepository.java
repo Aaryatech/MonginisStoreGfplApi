@@ -49,5 +49,25 @@ public interface VendorRepository extends JpaRepository<Vendor, Integer>{
 			"            ) and is_used=1 and created_in=1"),nativeQuery=true)
 	List<Vendor> getVendorByIndendId(@Param("indId")int indId);
  
+	@Query(value=("SELECT\r\n" + 
+			"    *\r\n" + 
+			"FROM\r\n" + 
+			"    m_vendor\r\n" + 
+			"WHERE\r\n" + 
+			"    vendor_id IN(\r\n" + 
+			"    SELECT\r\n" + 
+			"        vendor_id\r\n" + 
+			"    FROM\r\n" + 
+			"        t_mrn_header\r\n" + 
+			"    WHERE\r\n" + 
+			"        mrn_status = 4 AND del_status = 1\r\n" + 
+			") AND is_used = 1 "),nativeQuery=true)
+	List<Vendor> getVendorForBillBook();
+
+	@Query(value=("SELECT * FROM m_vendor WHERE deleted_in=0 "),nativeQuery=true)
+	List<Vendor> getAllVendor();
+	
+	@Query(value=("SELECT * FROM m_vendor WHERE vendor_id=:vendId "),nativeQuery=true)
+	Vendor getVendorById(@Param("vendId")int vendId);
 	
 }
