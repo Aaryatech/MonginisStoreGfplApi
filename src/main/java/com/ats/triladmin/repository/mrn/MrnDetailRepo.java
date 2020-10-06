@@ -93,6 +93,6 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 			"        and m.deleted_in in (:itemIds)",nativeQuery=true)
 	List<MrnDetail> findByItemIdsAndDelStatusAndMrnDetailStatus(@Param("itemIds")List<Integer> itemIds,@Param("date") String date);
 	
-	
+	MrnDetail findByMrnIdAndDelStatusAndIsHeaderItemAndItemId(int mrnId,int delStatus,int isHeaderItem,int itemId);
 	
 }

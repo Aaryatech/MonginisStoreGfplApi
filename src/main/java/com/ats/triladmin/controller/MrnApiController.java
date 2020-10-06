@@ -1071,10 +1071,12 @@ public class MrnApiController {
 
 			mrdDetailIdList.addAll(set);
 			res = mrnDetailRepo.getMrnDetailListByMrnDetailIdAndHeaderItem1(mrdDetailIdList);
-System.err.println("res list  "+res.toString());
+			System.err.println("res list  " + res.toString());
 			for (MrnDetail mrn : res) {
 				// outputList.add(res.get(a));
-				float totalAprQty = 0.0f;
+				//float totalAprQty = 0.0f;
+				float	totalAprQty = mrn.getApproveQty();
+				float tot=0.0f;
 				for (int i = 0; i < getMrnDetailList.size(); i++) {
 					Integer isFound = Integer.compare(mrn.getMrnDetailId(), getMrnDetailList.get(i).getMrnDetailId());
 					if (isFound.equals(0)) {
@@ -1083,52 +1085,51 @@ System.err.println("res list  "+res.toString());
 						// mrnDetail1 =
 						// mrnDetailRepo.findByMrnDetailId(getMrnDetailList.get(i).getMrnDetailId());
 						try {
-						if(getMrnDetailList.get(i).getUuid()!=null || !getMrnDetailList.get(i).getUuid().isEmpty())
-						{
-							System.err.println("In Bacth/UUID not null");
+							if (getMrnDetailList.get(i).getUuid() != null) {
+								System.err.println("In IF Bacth/UUID not null");
+								totalAprQty = totalAprQty + getMrnDetailList.get(i).getApproveQty();
+								flag = true;
+							} else {
+								System.err.println("In else Bacth/UUID null");
+								UUID uuid = UUID.randomUUID();
+								// Generates random UUID
+								MrnDetail mrnDetail = new MrnDetail();
+								// mrnDetail = mrn;
+								mrnDetail.setMrnDetailId(0);
+								mrnDetail.setBatchNo(mrn.getBatchNo() + "-" + getMrnDetailList.get(i).getExpDate());
+								mrnDetail.setChalanQty(mrn.getChalanQty());
+								mrnDetail.setDelStatus(mrn.getDelStatus());
+								mrnDetail.setIndentQty(mrn.getIndentQty());
+								mrnDetail.setIssueQty(mrn.getIssueQty());
+								mrnDetail.setItemId(mrn.getItemId());
+								mrnDetail.setMrnDetailStatus(1);
+								mrnDetail.setMrnId(mrnId);
+								mrnDetail.setMrnQty(mrn.getMrnQty());
+								// mrnDetail.setMrnQtyBeforeEdit(mrnQtyBeforeEdit);
+								mrnDetail.setPoDetailId(mrn.getPoDetailId());
+								mrnDetail.setPoId(mrn.getPoId());
+								mrnDetail.setPoNo(mrn.getPoNo());
+								mrnDetail.setPoQty(mrn.getPoQty());
+								mrnDetail.setRejectQty(mrn.getRejectQty());
+								mrnDetail.setRejectRemark(mrn.getRejectRemark());
+
+								mrnDetail.setRemainingQty(getMrnDetailList.get(i).getApproveQty());
+
+								mrnDetail.setApproveQty(getMrnDetailList.get(i).getApproveQty());
+								mrnDetail.setExpDate(DateConvertor.convertToYMD(getMrnDetailList.get(i).getExpDate()));
+								mrnDetail.setIsHeaderItem(0);// To be renamed as is_header_item
+								mrnDetail.setUuid(uuid.toString());
+
+								MrnDetail transRes = mrnDetailRepo.saveAndFlush(mrnDetail);
+								System.err.println("transRes " +transRes.toString());
+								totalAprQty =  totalAprQty + transRes.getApproveQty();
+								flag = true;
+								outputList.add(transRes);
+							}
+						} catch (Exception e) {
+							System.err.println("In Bacth/UUID not null exce");
 							totalAprQty = totalAprQty + getMrnDetailList.get(i).getApproveQty();
 							flag = true;
-						}else {
-							System.err.println("In else Bacth/UUID null");
-							UUID uuid = UUID.randomUUID(); 
-							// Generates random UUID
-							MrnDetail mrnDetail = new MrnDetail();
-							// mrnDetail = mrn;
-							mrnDetail.setMrnDetailId(0);
-							mrnDetail.setBatchNo(mrn.getBatchNo() + "-" + getMrnDetailList.get(i).getExpDate());
-							mrnDetail.setChalanQty(mrn.getChalanQty());
-							mrnDetail.setDelStatus(mrn.getDelStatus());
-							mrnDetail.setIndentQty(mrn.getIndentQty());
-							mrnDetail.setIssueQty(mrn.getIssueQty());
-							mrnDetail.setItemId(mrn.getItemId());
-							mrnDetail.setMrnDetailStatus(1);
-							mrnDetail.setMrnId(mrnId);
-							mrnDetail.setMrnQty(mrn.getMrnQty());
-							// mrnDetail.setMrnQtyBeforeEdit(mrnQtyBeforeEdit);
-							mrnDetail.setPoDetailId(mrn.getPoDetailId());
-							mrnDetail.setPoId(mrn.getPoId());
-							mrnDetail.setPoNo(mrn.getPoNo());
-							mrnDetail.setPoQty(mrn.getPoQty());
-							mrnDetail.setRejectQty(mrn.getRejectQty());
-							mrnDetail.setRejectRemark(mrn.getRejectRemark());
-
-							mrnDetail.setRemainingQty(getMrnDetailList.get(i).getApproveQty());
-
-							mrnDetail.setApproveQty(getMrnDetailList.get(i).getApproveQty());
-							mrnDetail.setExpDate(DateConvertor.convertToYMD(getMrnDetailList.get(i).getExpDate()));
-							mrnDetail.setIsHeaderItem(0);// To be renamed as is_header_item
-							mrnDetail.setUuid(uuid.toString());
-
-							MrnDetail transRes = mrnDetailRepo.saveAndFlush(mrnDetail);
-
-							totalAprQty = totalAprQty + transRes.getApproveQty();
-							flag = true;
-							outputList.add(transRes);
-						}
-					}catch (Exception e) {
-						System.err.println("In Bacth/UUID not null exce");
-						totalAprQty = totalAprQty + getMrnDetailList.get(i).getApproveQty();
-						flag = true;
 						}
 
 						// res.add(transRes);
@@ -1153,7 +1154,7 @@ System.err.println("res list  "+res.toString());
 			System.err.println(count);
 
 			if (count == 0) {
-				int isUpdated = mrnHeaderRepository.updateMrnStatus(mrnId);
+				//int isUpdated = mrnHeaderRepository.updateMrnStatus(mrnId);
 			}
 			// }
 
@@ -1185,17 +1186,39 @@ System.err.println("res list  "+res.toString());
 		return mrnDetList;
 	}
 
-	//Sachin 03-09-2020
+	// Sachin 03-09-2020
 	@RequestMapping(value = { "/deleteMrnItemDetail" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteMrnItemDetail(@RequestParam int mrnDetailId ) {
+	public @ResponseBody Info deleteMrnItemDetail(@RequestParam int mrnDetailId) {
 
 		Info info = new Info();
 		try {
 			mrnDetailRepo.deleteById(mrnDetailId);
 			info.setError(false);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			info.setError(true);
 		}
 		return info;
 	}
+	
+	// Sachin 06-10-2020
+	@RequestMapping(value = { "/updateMrnAprQtyForInspeDetail" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateMrnAprQtyForInspeDetail(@RequestParam int mrnId,
+			@RequestParam float aprQty,@RequestParam int itemId) {
+System.err.println("In Update ");
+		Info info = new Info();
+		try {
+			MrnDetail mrn=mrnDetailRepo.findByMrnIdAndDelStatusAndIsHeaderItemAndItemId(mrnId,1,1,itemId);
+			System.err.println("MRN "+mrn.toString());
+			mrn.setApproveQty(mrn.getApproveQty()-aprQty);
+			mrn.setMrnDetailStatus(1);
+			MrnDetail updateMrnItemHead = mrnDetailRepo.saveAndFlush(mrn);
+			System.err.println("updateMrnItemHead"+updateMrnItemHead.toString());
+			info.setError(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			info.setError(true);
+		}
+		return info;
+	}
+	
 }
