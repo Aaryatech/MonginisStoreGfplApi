@@ -34,7 +34,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approve_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -55,7 +56,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -76,7 +78,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_landing_value\r\n" + 
 			"    FROM\r\n" + 
 			"        m_category,\r\n" + 
@@ -110,7 +113,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approve_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -131,7 +135,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -153,7 +158,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_landing_value\r\n" + 
 			"    FROM\r\n" + 
 			"        m_category,\r\n" + 
@@ -188,7 +194,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approve_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -210,7 +217,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -232,7 +240,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_landing_value\r\n" + 
 			"    FROM\r\n" + 
 			"        m_category,\r\n" + 
@@ -267,7 +276,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id   AND t_mrn_detail.mrn_detail_status = 4           \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approve_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -289,7 +299,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id     AND t_mrn_detail.mrn_detail_status = 4         \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -311,7 +322,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id      AND t_mrn_detail.mrn_detail_status = 4        \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_landing_value\r\n" + 
 			"    FROM\r\n" + 
 			"        m_category,\r\n" + 
@@ -345,7 +357,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id    AND t_mrn_detail.mrn_detail_status = 4          \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approve_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -366,7 +379,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id     AND t_mrn_detail.mrn_detail_status = 4         \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -387,7 +401,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id     AND t_mrn_detail.mrn_detail_status = 4         \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId and indent.sub_dept_id=:subDeptId "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_landing_value\r\n" + 
 			"    FROM\r\n" + 
 			"        m_category,\r\n" + 
@@ -421,7 +436,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approve_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -442,7 +458,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*t_mrn_detail.approve_qty)                     \r\n" + 
@@ -463,7 +480,8 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"            and m_item.cat_id=m_category.cat_id  \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id              \r\n" + 
-			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4),\r\n" + 
+			"            and indent.ind_isdev in (:isDev) and indent.dept_id=:deptId AND t_mrn_detail.mrn_detail_status = 4 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS approved_landing_value\r\n" + 
 			"    FROM\r\n" + 
 			"        m_category,\r\n" + 
@@ -472,5 +490,5 @@ public interface MonthCategoryWiseMrnReportRepository extends JpaRepository<Mont
 			"        m_category.is_used=1"),nativeQuery=true)
 	List<MonthCategoryWiseMrnReport> MrnMonthcategoryReportWithDeptId(@Param("fromDate")String fromDate,@Param("toDate") String lastDate,
 			@Param("isDev")List<Integer> isDev,@Param("deptId") int deptId,@Param("index") int index);
-
+//Done For all and t_mrn_detail.is_header_item=1
 }

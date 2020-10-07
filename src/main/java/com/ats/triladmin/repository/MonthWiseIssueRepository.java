@@ -42,7 +42,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and item_issue_detail.del_status=1 \r\n" + 
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id \r\n" + 
-			"            and item_issue_header.dept_id=m_dept.dept_id AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.dept_id=m_dept.dept_id AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty) \r\n" + 
@@ -58,7 +59,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and item_issue_detail.del_status=1 \r\n" + 
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id \r\n" + 
-			"            and item_issue_header.dept_id=m_dept.dept_id AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.dept_id=m_dept.dept_id AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value \r\n" + 
 			"    FROM\r\n" + 
 			"        m_dept,(SELECT @a\\:=:index) AS a \r\n" + 
@@ -66,6 +68,7 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"        m_dept.is_used=1 \r\n" + 
 			"    order by m_dept.dept_id"),nativeQuery=true)
 	List<MonthWiseIssueReport> issueMonthWiseReport(@Param("fromDate")String fromDate,@Param("toDate") String toDate,@Param("index")int index);
+//#1 issueMonthWiseReport(@Param("fromDate")String fromDate,@Param("toDate") String toDate,@Param("index")int index);
 
 	@Query(value=("SELECT\r\n" + 
 			"        @a\\:=@a+1 sr ,month(:fromDate) as month_no, \r\n" + 
@@ -91,7 +94,9 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id              \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1 "
+			+ " ),\r\n" + 
 			"        0) AS issue_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate)                               \r\n" + 
@@ -114,7 +119,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id              \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                               \r\n" + 
@@ -137,7 +143,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id              \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                    \r\n" + 
 			"    FROM\r\n" + 
 			"        m_dept,(SELECT @a\\:=:index) AS a \r\n" + 
@@ -146,6 +153,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"    order by m_dept.dept_id"),nativeQuery=true)
 	List<MonthWiseIssueReport> issueMonthWiseReportWithTypeIdAndIsDev(@Param("fromDate")String fromDate,@Param("toDate") String toDate,
 			@Param("typeId") int typeId,@Param("isDev") int isDev,@Param("index")int index);
+//#2 issueMonthWiseReportWithTypeIdAndIsDev(@Param("fromDate")String fromDate,@Param("toDate") String toDate,
+	//	@Param("typeId") int typeId,@Param("isDev") int isDev,@Param("index")int index);
 
 	@Query(value=("SELECT\r\n" + 
 			"        @a\\:=@a+1 sr ,month(:fromDate) as month_no, \r\n" + 
@@ -181,7 +190,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id                                           \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id \r\n" + 
 			"            and item_issue_header.dept_id=m_dept.dept_id              \r\n" + 
-			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                               \r\n" + 
@@ -198,7 +208,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id                                           \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id \r\n" + 
 			"            and item_issue_header.dept_id=m_dept.dept_id              \r\n" + 
-			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                    \r\n" + 
 			"    FROM\r\n" + 
 			"        m_dept,(SELECT @a\\:=:index) AS a \r\n" + 
@@ -207,7 +218,9 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"    order by m_dept.dept_id"),nativeQuery=true)
 	List<MonthWiseIssueReport> issueMonthWiseReportWithTypeId(@Param("fromDate")String fromDate,@Param("toDate") String toDate,
 			@Param("typeId") int typeId,@Param("index")int index);
-
+//#3 issueMonthWiseReportWithTypeId(@Param("fromDate")String fromDate,@Param("toDate") String toDate,
+	//	@Param("typeId") int typeId,@Param("index")int index);
+	
 	@Query(value=("SELECT\r\n" + 
 			"        @a\\:=@a+1 sr ,month(:fromDate) as month_no, \r\n" + 
 			"        monthname(:fromDate) as month_name,\r\n" + 
@@ -231,7 +244,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id              \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate)                               \r\n" + 
@@ -253,7 +267,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id              \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                               \r\n" + 
@@ -275,7 +290,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id              \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                    \r\n" + 
 			"    FROM\r\n" + 
 			"        m_dept,(SELECT @a\\:=:index) AS a \r\n" + 
@@ -284,5 +300,8 @@ public interface MonthWiseIssueRepository extends JpaRepository<MonthWiseIssueRe
 			"    order by m_dept.dept_id"),nativeQuery=true)
 	List<MonthWiseIssueReport> issueMonthWiseWiseReportWithIsDev(@Param("fromDate")String fromDate,@Param("toDate") String toDate,
 			@Param("isDev")int isDev,@Param("index")int index);
+
+	//#4 List<MonthWiseIssueReport> issueMonthWiseWiseReportWithIsDev(@Param("fromDate")String fromDate,@Param("toDate") String toDate,
+	//	@Param("isDev")int isDev,@Param("index")int index);
 
 }

@@ -45,7 +45,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and item_issue_detail.del_status=1               \r\n" + 
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id               \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \r\n" + 
-			"            and item_issue_header.sub_dept_id=m_sub_dept.sub_dept_id AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.sub_dept_id=m_sub_dept.sub_dept_id AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)           \r\n" + 
@@ -61,7 +62,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and item_issue_detail.del_status=1               \r\n" + 
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id               \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \r\n" + 
-			"            and item_issue_header.sub_dept_id=m_sub_dept.sub_dept_id AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.sub_dept_id=m_sub_dept.sub_dept_id AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value       \r\n" + 
 			"    FROM\r\n" + 
 			"        m_sub_dept,\r\n" + 
@@ -102,7 +104,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate)                                         \r\n" + 
@@ -125,7 +128,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                                         \r\n" + 
@@ -148,7 +152,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                          \r\n" + 
 			"    FROM\r\n" + 
 			"       m_sub_dept,\r\n" + 
@@ -199,7 +204,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id                                                         \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \r\n" + 
 			"            and item_issue_header.sub_dept_id=m_sub_dept.sub_dept_id                            \r\n" + 
-			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                                         \r\n" + 
@@ -216,7 +222,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id                                                         \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \r\n" + 
 			"            and item_issue_header.sub_dept_id=m_sub_dept.sub_dept_id                            \r\n" + 
-			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                          \r\n" + 
 			"    FROM\r\n" + 
 			"        m_sub_dept,\r\n" + 
@@ -256,7 +263,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate)                                         \r\n" + 
@@ -278,7 +286,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                                         \r\n" + 
@@ -300,7 +309,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                          \r\n" + 
 			"    FROM\r\n" + 
 			"        m_sub_dept,\r\n" + 
@@ -361,7 +371,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and item_issue_detail.del_status=1               \r\n" + 
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id               \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \r\n" + 
-			"            and item_issue_header.sub_dept_id=:subDeptId and item_issue_detail.item_id=m_item.item_id AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.sub_dept_id=:subDeptId and item_issue_detail.item_id=m_item.item_id AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)           \r\n" + 
@@ -377,7 +388,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and item_issue_detail.del_status=1               \r\n" + 
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id               \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \r\n" + 
-			"            and item_issue_header.sub_dept_id=:subDeptId and item_issue_detail.item_id=m_item.item_id AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.sub_dept_id=:subDeptId and item_issue_detail.item_id=m_item.item_id AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value       \r\n" + 
 			"    FROM\r\n" + 
 			"        m_item,\r\n" + 
@@ -417,7 +429,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate)                                         \r\n" + 
@@ -440,7 +453,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                                         \r\n" + 
@@ -463,7 +477,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                          \r\n" + 
 			"    FROM\r\n" + 
 			"         m_item,\r\n" + 
@@ -513,7 +528,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id                                                         \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \r\n" + 
 			"            and item_issue_header.sub_dept_id=:subDeptId and item_issue_detail.item_id=m_item.item_id                            \r\n" + 
-			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                                         \r\n" + 
@@ -530,7 +546,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id                                                         \r\n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \r\n" + 
 			"            and item_issue_header.sub_dept_id=:subDeptId and item_issue_detail.item_id=m_item.item_id                            \r\n" + 
-			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2),\r\n" + 
+			"            and item_issue_header.item_category=:typeId AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                          \r\n" + 
 			"    FROM\r\n" + 
 			"        m_item,\r\n" + 
@@ -569,7 +586,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate)                                         \r\n" + 
@@ -591,7 +609,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_qty_value,\r\n" + 
 			"        coalesce((Select\r\n" + 
 			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty)                                         \r\n" + 
@@ -613,7 +632,8 @@ public interface MonthSubDeptWiseIssueRepository extends JpaRepository<MonthSubD
 			"            and t_mrn_detail.mrn_detail_id=item_issue_detail.mrn_detail_id                            \r\n" + 
 			"            and t_mrn_detail.po_id=po_header.po_id               \r\n" + 
 			"            and po_header.ind_id=indent.ind_m_id               \r\n" + 
-			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2),\r\n" + 
+			"            and indent.ind_isdev=:isDev AND item_issue_detail.status = 2 "
+			+ " and t_mrn_detail.is_header_item=1),\r\n" + 
 			"        0) AS issue_landing_value                          \r\n" + 
 			"    FROM\r\n" + 
 			"        m_item,\r\n" + 

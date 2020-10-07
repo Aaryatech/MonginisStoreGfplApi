@@ -1154,7 +1154,7 @@ public class MrnApiController {
 			System.err.println(count);
 
 			if (count == 0) {
-				//int isUpdated = mrnHeaderRepository.updateMrnStatus(mrnId);
+				int isUpdated = mrnHeaderRepository.updateMrnStatus(mrnId);
 			}
 			// }
 
