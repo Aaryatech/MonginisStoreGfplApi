@@ -250,10 +250,14 @@ public class MrnApiController {
 				System.err.println("d");
 				mrnHeaderList = getMrnHeaderRepository.getAllMrnHeaderList();
 			}
+			List<String> statusIds=new ArrayList<>();
+			statusIds.add("0");
+			statusIds.add("1");
+			
 			if (mrnHeaderList.size() > 0) {
 				for (int i = 0; i < mrnHeaderList.size(); i++) {
 					List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository
-							.getMrnDetailList(mrnHeaderList.get(i).getMrnId(), 0);
+							.getMrnDetailList(mrnHeaderList.get(i).getMrnId(),statusIds);
 
 					mrnHeaderList.get(i).setGetMrnDetailList(getMrnDetailList);
 				}

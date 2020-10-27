@@ -13,11 +13,12 @@ import com.ats.triladmin.model.mrn.GetMrnHeader;
 @Repository
 public interface GetMrnDetailRepository extends JpaRepository<GetMrnDetail, Integer> {
 
+	//changed om 20-10-2020 List<String> 0 and 1
 	@Query(value = "select podetail.po_detail_id, podetail.pending_qty as po_pending_qty,d.mrn_qty as mrn_qty_before_edit,"
 			+ " d.mrn_detail_id,d.mrn_id,d.item_id,i.item_desc as item_name,i.item_code,i.item_uom,d.po_id,d.po_no,d.indent_qty,d.po_qty,"
 			+ "d.mrn_qty,d.approve_qty,d.reject_qty,d.reject_remark,d.mrn_detail_status,d.batch_no,d.issue_qty,"
-			+ "d.remaining_qty,d.del_status,d.chalan_qty  from t_mrn_detail d,m_item i,po_detail podetail where d.mrn_id=:mrnId and d.del_status=1 and i.item_id=d.item_id and d.mrn_detail_status=:mrnDetailStatus and podetail.po_detail_id=d.po_detail_id ", nativeQuery = true)
-	List<GetMrnDetail> getMrnDetailList(@Param("mrnId") int mrnId, @Param("mrnDetailStatus") int mrnDetailStatus);
+			+ "d.remaining_qty,d.del_status,d.chalan_qty  from t_mrn_detail d,m_item i,po_detail podetail where d.mrn_id=:mrnId and d.del_status=1 and i.item_id=d.item_id and d.mrn_detail_status IN (:mrnDetailStatus) and podetail.po_detail_id=d.po_detail_id ", nativeQuery = true)
+	List<GetMrnDetail> getMrnDetailList(@Param("mrnId") int mrnId, @Param("mrnDetailStatus") List<String> mrnDetailStatus);
 
 	//Sachin 03-09-2020
 	//to get items for Store MRN Inspection add/edit

@@ -55,7 +55,7 @@ public interface MrnExcelPuchRepository extends JpaRepository<MrnExcelPuch, Inte
 			"\n" + 
 			"FROM t_mrn_detail,t_mrn_header,po_header,po_detail,m_vendor,m_tax_form,indtrans,indent,m_category,m_item \n" + 
 			"WHERE t_mrn_detail.mrn_id=t_mrn_header.mrn_id AND po_header.po_id=t_mrn_detail.po_id AND po_detail.po_detail_id=t_mrn_detail.po_detail_id AND\n" + 
-			" po_header.po_id=po_detail.po_id AND m_vendor.vendor_id=po_header.vend_id AND t_mrn_detail.item_id=m_item.item_id AND m_tax_form.tax_id=m_item.item_is_capital AND t_mrn_header.mrn_id IN(:mrnIdList) AND indtrans.ind_d_id=po_detail.ind_id AND indtrans.ind_m_id=indent.ind_m_id AND indent.cat_id=m_category.cat_id ORDER BY t_mrn_header.mrn_date",nativeQuery=true)
+			" po_header.po_id=po_detail.po_id AND m_vendor.vendor_id=po_header.vend_id AND t_mrn_detail.item_id=m_item.item_id AND m_tax_form.tax_id=m_item.item_is_capital AND t_mrn_header.mrn_id IN(:mrnIdList) AND indtrans.ind_d_id=po_detail.ind_id AND indtrans.ind_m_id=indent.ind_m_id AND indent.cat_id=m_category.cat_id AND t_mrn_detail.is_header_item=1  ORDER BY t_mrn_header.mrn_date",nativeQuery=true)
 	List<MrnExcelPuch> getMrnExcelReport(@Param("mrnIdList")List<String> mrnIdList);
 	
 	/*---------------------------------------------------------------------------------------------------------*/

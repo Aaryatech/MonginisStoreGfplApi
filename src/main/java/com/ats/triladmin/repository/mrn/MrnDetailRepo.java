@@ -32,12 +32,12 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 			"        t_mrn_header mh\n" + 
 			"    where\n" + 
 			"        md.item_id=:itemId\n" + 
-			"        and md.del_status=1 and \n" + 
-			//"        and md.mrn_detail_status>=4\n" + 
-			" mh.mrn_status IN(3,4,5 " + 
-			"        ) "+
+			"        and md.del_status=1  \n" + 
+			"        and md.mrn_detail_status>=1\n" + 
+			//" mh.mrn_status IN(3,4,5 " + 
+		//	"        ) "+
 			"        and mh.mrn_date<=:date \n" + 
-			"        and mh.mrn_id=md.mrn_id and mh.del_status=1 and md.is_header_item=0 	ORDER BY md.exp_date ASC ",nativeQuery=true)
+			"        and mh.mrn_id=md.mrn_id and mh.del_status=1 and (md.is_header_item=0 or md.exp_date='2020-01-01')	ORDER BY md.exp_date ASC ",nativeQuery=true)
 	List<MrnDetail> findByItemIdAndDelStatusAndMrnDetailStatus(@Param("itemId")int itemId ,
 			@Param("date")String date); //and md.is_header_item=0 Added by Sachin 31-08-2020
 

@@ -150,19 +150,19 @@ public class IssueRestController {
 	@RequestMapping(value = { "/getBatchByItemId" }, method = RequestMethod.POST)
 	public @ResponseBody List<MrnDetail> getBatchByItemId(@RequestParam("itemId") int itemId,@RequestParam("type") int type,
 			@RequestParam("date") String date) {
-		 
+		 //System.err.println("Sachin");
 		List<MrnDetail> indTransList = new ArrayList<>();
 
 		try {
  
 			indTransList = mrnDetailRepo.findByItemIdAndDelStatusAndMrnDetailStatus(itemId, date); 
-
+			//System.err.println("indTransList " +indTransList.toString());
 		} catch (Exception e) {
   
 			e.printStackTrace();
 
 		}
-
+		 //System.err.println("Sachin2");
 		return indTransList;
 
 	}
