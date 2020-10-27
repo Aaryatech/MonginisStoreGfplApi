@@ -35,7 +35,7 @@ public interface VendorItemPurchaseReportRepo extends JpaRepository<VendorItemPu
 			"    t_mrn_detail.po_id=po_header.po_id AND\n" + 
 			"    t_mrn_detail.mrn_id=t_mrn_header.mrn_id  AND"
 			+ " 	t_mrn_detail.del_status=1\n" + 
-			"        AND	t_mrn_header.del_status=1 ORDER BY t_mrn_header.mrn_no DESC",nativeQuery=true)
+			"        AND t_mrn_detail.is_header_item=1	and	t_mrn_header.del_status=1 ORDER BY t_mrn_header.mrn_no DESC",nativeQuery=true)
 	public List<VendorItemPurchaseReport> getVendorItemPurchaseReport(@Param("fromDate") String fromDate, @Param("toDate") String toDate, 
 			@Param("vendrId") int vendrId, @Param("itemsList") List<Integer> itemsList);
 	
