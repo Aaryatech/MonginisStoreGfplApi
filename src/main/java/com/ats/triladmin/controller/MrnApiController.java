@@ -250,14 +250,10 @@ public class MrnApiController {
 				System.err.println("d");
 				mrnHeaderList = getMrnHeaderRepository.getAllMrnHeaderList();
 			}
-			List<String> statusIds=new ArrayList<>();
-			statusIds.add("0");
-			statusIds.add("1");
-			
 			if (mrnHeaderList.size() > 0) {
 				for (int i = 0; i < mrnHeaderList.size(); i++) {
 					List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository
-							.getMrnDetailList(mrnHeaderList.get(i).getMrnId(),statusIds);
+							.getMrnDetailList(mrnHeaderList.get(i).getMrnId(), 0);
 
 					mrnHeaderList.get(i).setGetMrnDetailList(getMrnDetailList);
 				}
@@ -1100,7 +1096,7 @@ public class MrnApiController {
 								MrnDetail mrnDetail = new MrnDetail();
 								// mrnDetail = mrn;
 								mrnDetail.setMrnDetailId(0);
-								mrnDetail.setBatchNo(mrn.getBatchNo() + "-" + getMrnDetailList.get(i).getExpDate());
+								mrnDetail.setBatchNo(mrn.getBatchNo()+ " PR " + getMrnDetailList.get(i).getProdDate() + " EX " + getMrnDetailList.get(i).getExpDate());
 								mrnDetail.setChalanQty(mrn.getChalanQty());
 								mrnDetail.setDelStatus(mrn.getDelStatus());
 								mrnDetail.setIndentQty(mrn.getIndentQty());

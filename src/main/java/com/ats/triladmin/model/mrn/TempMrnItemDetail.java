@@ -2,6 +2,7 @@ package com.ats.triladmin.model.mrn;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 //Sachin 31-08-2020 changed on 03-09-2020
 @Entity
@@ -18,20 +19,30 @@ public class TempMrnItemDetail {
 
 	private String itemCode;
 
-	private String itemUom; 
-	
+	private String itemUom;
+
 	private float mrnQty;
 
 	private float approveQty;
-	
+
 	private String expDate;
-	
-	private int detailStatus; //Its header item or detail item 1/0 
-	
-	private String uuid; //03-09-2020
-	
-	private String batchNo; //03-09-2020
-	
+
+	private int detailStatus; // Its header item or detail item 1/0
+
+	private String uuid; // 03-09-2020
+
+	private String batchNo; // 03-09-2020
+
+	@Transient
+	private String prodDate; // 10-11-2020
+
+	public String getProdDate() {
+		return prodDate;
+	}
+
+	public void setProdDate(String prodDate) {
+		this.prodDate = prodDate;
+	}
 
 	public String getUuid() {
 		return uuid;
@@ -112,7 +123,7 @@ public class TempMrnItemDetail {
 	public void setExpDate(String expDate) {
 		this.expDate = expDate;
 	}
-	
+
 	public int getDetailStatus() {
 		return detailStatus;
 	}
@@ -134,6 +145,6 @@ public class TempMrnItemDetail {
 		return "TempMrnItemDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId
 				+ ", itemName=" + itemName + ", itemCode=" + itemCode + ", itemUom=" + itemUom + ", mrnQty=" + mrnQty
 				+ ", approveQty=" + approveQty + ", expDate=" + expDate + ", detailStatus=" + detailStatus + ", uuid="
-				+ uuid + ", batchNo=" + batchNo + "]";
+				+ uuid + ", batchNo=" + batchNo + ", prodDate=" + prodDate + "]";
 	}
 }
